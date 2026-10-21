@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public sealed class JourneyListRowView : MonoBehaviour
 {
     [SerializeField] private Button button;
+    [SerializeField] private FigmaPanelGraphic frame;
     [SerializeField] private Image icon;
     [SerializeField] private Text title;
     [SerializeField] private Text subtitle;
@@ -16,6 +17,7 @@ public sealed class JourneyListRowView : MonoBehaviour
         UIButtonAudio.Ensure(button.gameObject);
         button.onClick.AddListener(() => selected?.Invoke());
     }
+    public void SetSelected(bool value) { if (frame != null) frame.SetSelected(value); }
     public void Bind(string name, string detail, Sprite sprite, Action callback)
-    { title.text = name; subtitle.text = detail; icon.sprite = sprite; icon.enabled = sprite != null; selected = callback; }
+    { SetSelected(false); title.text = name; subtitle.text = detail; icon.sprite = sprite; icon.enabled = sprite != null; selected = callback; }
 }

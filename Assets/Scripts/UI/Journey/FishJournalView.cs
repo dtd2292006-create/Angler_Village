@@ -17,17 +17,18 @@ public sealed class FishJournalView : MonoBehaviour
     [SerializeField] private Text detail;
     [SerializeField] private Image portrait;
     [SerializeField] private Text toast;
+    [SerializeField] private Graphic toastBacking;
     [SerializeField] private RectTransform content;
     [SerializeField] private ScrollRect scroll;
-    [SerializeField] private JourneyListRowView rowPrefab;
+    [SerializeField] private FishJournalSlotView rowPrefab;
     private PlayerProgress progress;
-    private readonly List<JourneyListRowView> rows = new List<JourneyListRowView>();
+    private readonly List<FishJournalSlotView> rows = new List<FishJournalSlotView>();
     private float toastRemaining;
     private bool IsOpen => window.activeSelf;
     private void Awake()
     {
         foreach (var text in GetComponentsInChildren<Text>(true)) InventoryUIFont.Ensure(text);
-        window.SetActive(false); toast.enabled = false;
+        window.SetActive(false); toast.gameObject.SetActive(false); if (toastBacking != null) toastBacking.enabled = false;
         open.onClick.AddListener(Open); close.onClick.AddListener(Close);
     }
     private void Start()
@@ -39,7 +40,8 @@ public sealed class FishJournalView : MonoBehaviour
     {
         open.gameObject.SetActive(!GameInputBlock.IsBlocked);
         toastRemaining -= Time.unscaledDeltaTime;
-        toast.enabled = toastRemaining > 0 && !GameInputBlock.IsBlocked;
+        toast.gameObject.SetActive(toastRemaining > 0 && !GameInputBlock.IsBlocked);
+        if (toastBacking != null) toastBacking.enabled = toast.gameObject.activeSelf;
         if (IsOpen && UiEscape.Pressed) { UiEscape.Consume(); Close(); return; }
         if (!Application.isFocused) return;
 #if ENABLE_INPUT_SYSTEM
@@ -67,9 +69,7 @@ public sealed class FishJournalView : MonoBehaviour
             if (known) discovered++;
             if (used == rows.Count) rows.Add(Instantiate(rowPrefab, content));
             var row = rows[used++]; row.gameObject.SetActive(true);
-            row.Bind("#" + number.ToString("000") + " · " + (known ? definition.DisplayName : "???"),
-                known ? "Đã tự câu: " + progress.CatchCount(definition.SpeciesId) : "Chưa khám phá",
-                known ? definition.Sprite : null, () => Select(selected, number));
+            row.Bind(known ? definition.Sprite : null, () => Select(selected, number));
         }
         for (int i = used; i < rows.Count; i++) rows[i].gameObject.SetActive(false);
         count.text = "SỔ CÁ · " + discovered + "/" + used + " LOÀI";
@@ -79,6 +79,7 @@ public sealed class FishJournalView : MonoBehaviour
     }
     private void Select(FishDefinition definition, int number)
     {
+        for (int i = 0; i < rows.Count; i++) rows[i].SetSelected(i == number - 1);
         bool known = progress.KnowsSpecies(definition.SpeciesId);
         detailName.text = "#" + number.ToString("000") + " · " + (known ? definition.DisplayName : "???");
         portrait.sprite = known ? definition.Sprite : null; portrait.enabled = portrait.sprite != null;

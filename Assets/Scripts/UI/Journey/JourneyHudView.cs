@@ -11,12 +11,16 @@ public sealed class JourneyHudView : MonoBehaviour
     [SerializeField] private Text rankLabel;
     [SerializeField] private Slider experience;
     [SerializeField] private Text objective;
+    [SerializeField] private GameObject objectivePanel;
+    private PlayerFishingController fishing;
     [SerializeField] private Text coins;
     private float refresh;
     private void Awake() { foreach (var text in GetComponentsInChildren<Text>(true)) InventoryUIFont.Ensure(text); }
+    private void Start() => fishing = FindFirstObjectByType<PlayerFishingController>();
     private void Update()
     {
         hud.SetActive(!GameInputBlock.IsBlocked);
+        if (objectivePanel != null) objectivePanel.SetActive(fishing == null || !fishing.IsCasting);
         refresh -= Time.unscaledDeltaTime; if (refresh > 0) return; refresh = 0.25f;
         var progress = PlayerProgress.Current; if (progress == null || !progress.IsReady) return;
         rankPanel.SetActive(progress.Certified);

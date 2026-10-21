@@ -1,0 +1,174 @@
+{
+  "fileKey": "HkksYQAnBBVOy5em7s2tE4",
+  "page": "0:1",
+  "exported": "2026-10-21",
+  "assets": [
+    {
+      "name": "Bag",
+      "nodeId": "104:9",
+      "width": 48,
+      "height": 48
+    },
+    {
+      "name": "Receptionist",
+      "nodeId": "154:5953",
+      "width": 192,
+      "height": 192
+    },
+    {
+      "name": "Shopkeeper",
+      "nodeId": "154:5983",
+      "width": 192,
+      "height": 192
+    },
+    {
+      "name": "MainMenuLogo",
+      "nodeId": "155:7187",
+      "width": 768,
+      "height": 300
+    },
+    {
+      "name": "Certificate",
+      "nodeId": "154:6089",
+      "width": 960,
+      "height": 600
+    },
+    {
+      "name": "Discovery",
+      "nodeId": "152:5006",
+      "width": 48,
+      "height": 48
+    },
+    {
+      "name": "BrokenLine",
+      "nodeId": "104:45",
+      "width": 48,
+      "height": 48
+    },
+    {
+      "name": "NoBait",
+      "nodeId": "104:49",
+      "width": 48,
+      "height": 48
+    },
+    {
+      "name": "FishBook",
+      "nodeId": "154:6139",
+      "width": 1488,
+      "height": 840
+    },
+    {
+      "name": "FishBookIcon",
+      "nodeId": "152:5010",
+      "width": 48,
+      "height": 48
+    },
+    {
+      "name": "Coin",
+      "nodeId": "104:4",
+      "width": 48,
+      "height": 48
+    },
+    {
+      "name": "Sun",
+      "nodeId": "104:58",
+      "width": 48,
+      "height": 48
+    },
+    {
+      "name": "Rod",
+      "nodeId": "104:34",
+      "width": 48,
+      "height": 48
+    },
+    {
+      "name": "Line",
+      "nodeId": "104:37",
+      "width": 48,
+      "height": 48
+    },
+    {
+      "name": "Bait",
+      "nodeId": "104:42",
+      "width": 48,
+      "height": 48
+    },
+    {
+      "name": "GuildSeal",
+      "nodeId": "154:6112",
+      "width": 96,
+      "height": 96
+    },
+    {
+      "name": "AnglerBadge",
+      "nodeId": "154:6124",
+      "width": 96,
+      "height": 120
+    },
+    {
+      "name": "ClothHem",
+      "nodeId": "134:4600",
+      "width": 1464,
+      "height": 12
+    },
+    {
+      "name": "QteRim",
+      "nodeId": "106:47",
+      "width": 192,
+      "height": 192
+    },
+    {
+      "name": "QteTrack",
+      "nodeId": "106:50",
+      "width": 192,
+      "height": 192
+    },
+    {
+      "name": "QteNeedle",
+      "nodeId": "106:59",
+      "width": 192,
+      "height": 192
+    },
+    {
+      "name": "QteGood",
+      "nodeId": "106:53",
+      "width": 192,
+      "height": 192
+    },
+    {
+      "name": "QteGreat",
+      "nodeId": "106:56",
+      "width": 192,
+      "height": 192
+    },
+    {
+      "name": "MenuVillage",
+      "nodeId": "155:7129",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "name": "MenuFish",
+      "nodeId": "109:1226",
+      "width": 288,
+      "height": 144
+    },
+    {
+      "name": "NewBadge",
+      "nodeId": "152:5045",
+      "width": 96,
+      "height": 48
+    },
+    {
+      "name": "Warning",
+      "nodeId": "104:30",
+      "width": 48,
+      "height": 48
+    }
+  ],
+  "notes": [
+    "Native PNG exports of existing nodes; no screenshot assets.",
+    "Settings/Close/NewCatch exports were empty; not shipped. Settings uses an Esc keycap.",
+    "QTE ring artwork is decorative; hit windows remain generated from fish/line data."
+  ]
+}

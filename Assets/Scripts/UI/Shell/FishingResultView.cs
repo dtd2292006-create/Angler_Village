@@ -10,6 +10,9 @@ public sealed class FishingResultView : MonoBehaviour
     [SerializeField] private GameObject card;
     [SerializeField] private CanvasGroup group;
     [SerializeField] private Image fishImage;
+    [SerializeField] private Image resultIcon;
+    [SerializeField] private Sprite brokenIcon;
+    [SerializeField] private Sprite emptyIcon;
     [SerializeField] private Text symbol;
     [SerializeField] private Text heading;
     [SerializeField] private Text description;
@@ -48,7 +51,12 @@ public sealed class FishingResultView : MonoBehaviour
     {
         heading.text = title; heading.color = color; description.text = detail;
         fishImage.sprite = sprite; fishImage.enabled = sprite != null;
-        symbol.text = mark; symbol.gameObject.SetActive(sprite == null); symbol.color = color;
+        if (resultIcon != null)
+        {
+            resultIcon.sprite = mark == "!" ? brokenIcon : emptyIcon;
+            resultIcon.enabled = sprite == null && resultIcon.sprite != null;
+        }
+        symbol.text = mark; symbol.gameObject.SetActive(sprite == null && (resultIcon == null || !resultIcon.enabled)); symbol.color = color;
         accent.color = color; remaining = visibleSeconds; group.alpha = 1; card.SetActive(true);
     }
     private void LateUpdate()

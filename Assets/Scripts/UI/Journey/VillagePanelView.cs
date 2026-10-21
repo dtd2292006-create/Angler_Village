@@ -8,6 +8,17 @@ using UnityEngine.UI;
 public sealed class VillagePanelView : MonoBehaviour
 {
     [SerializeField] private GuildService guild;
+    [SerializeField] private Graphic modalBackdrop;
+    [SerializeField] private Graphic browserFrame;
+    [SerializeField] private Button dialogueContinue;
+    [SerializeField] private Text dialogueContinueLabel;
+    [SerializeField] private GameObject browserPanel;
+    [SerializeField] private GameObject certificateSheet;
+    [SerializeField] private Button certificateContinue;
+    [SerializeField] private Image speakerPortrait;
+    [SerializeField] private Text speakerName;
+    [SerializeField] private Sprite receptionistPortrait;
+    [SerializeField] private Sprite shopkeeperPortrait;
     [SerializeField] private ShopService shop;
     [SerializeField] private GameObject window;
     [SerializeField] private GameObject browser;
@@ -43,7 +54,12 @@ public sealed class VillagePanelView : MonoBehaviour
     {
         foreach (var text in GetComponentsInChildren<Text>(true)) InventoryUIFont.Ensure(text);
         window.SetActive(false);
+        if (certificateContinue != null) certificateContinue.onClick.AddListener(() =>
+        {
+            certificateSheet.SetActive(false); browserPanel.SetActive(true); GuildBrowser();
+        });
         primary.onClick.AddListener(() => primaryAction?.Invoke());
+        if (dialogueContinue != null) dialogueContinue.onClick.AddListener(() => primaryAction?.Invoke());
         secondary.onClick.AddListener(() => secondaryAction?.Invoke());
         close.onClick.AddListener(Close);
         equipmentTab.onClick.AddListener(() => ShopTab(0));
@@ -72,19 +88,42 @@ public sealed class VillagePanelView : MonoBehaviour
     public void Close()
     {
         if (IsOpen) GameAudio.Instance?.Play(AudioCue.UiClose);
-        window.SetActive(false); GameInputBlock.Set(this, false); GamePause.Set(this, false);
+        window.SetActive(false);
+        if (certificateSheet != null) certificateSheet.SetActive(false);
+        if (browserPanel != null) browserPanel.SetActive(true);
+        GameInputBlock.Set(this, false); GamePause.Set(this, false);
         primaryAction = null; secondaryAction = null; dialogueFinished = null;
     }
     private void ShowDialogue(string heading, string[] text, Action finished)
     {
         if (!Open()) return;
-        title.text = heading; pages = text; page = 0; dialogueFinished = finished;
+        SetDialoguePresentation(true);
+        title.text = heading;
+        if (speakerName != null) speakerName.text = heading;
+        if (speakerPortrait != null)
+        {
+            speakerPortrait.sprite = heading.StartsWith("CỬA HÀNG") ? shopkeeperPortrait : receptionistPortrait;
+            speakerPortrait.enabled = heading.StartsWith("CỬA HÀNG") || heading.StartsWith("GUILD");
+        }
+        pages = text; page = 0; dialogueFinished = finished;
         browser.SetActive(false); dialogue.SetActive(true); tabs.SetActive(false);
         secondary.gameObject.SetActive(false); ShowPage();
+    }
+    private void SetDialoguePresentation(bool value)
+    {
+        if (browserFrame != null) browserFrame.enabled = !value;
+        if (modalBackdrop != null)
+        {
+            var tint = modalBackdrop.color; tint.a = value ? 0.25f : 0.96f; modalBackdrop.color = tint;
+        }
+        title.gameObject.SetActive(!value); wallet.gameObject.SetActive(!value);
+        status.gameObject.SetActive(!value); close.gameObject.SetActive(!value);
+        primary.gameObject.SetActive(!value || dialogueContinue == null);
     }
     private void ShowPage()
     {
         dialogueText.text = pages[page]; primaryLabel.text = page < pages.Length - 1 ? "Tiếp tục" : "Đã hiểu";
+        if (dialogueContinueLabel != null) dialogueContinueLabel.text = primaryLabel.text;
         primary.interactable = true;
         primaryAction = () => { if (++page < pages.Length) ShowPage(); else { var done = dialogueFinished; dialogueFinished = null; done?.Invoke(); } };
     }
@@ -98,13 +137,17 @@ public sealed class VillagePanelView : MonoBehaviour
                 "Mang đủ cá về nói chuyện với tôi và bấm Giao cá. Chỉ những con cá được giao mới rời túi.\n\nMột số việc nhận cá cũ; việc yêu cầu cá mới chỉ tính cá bạn tự câu sau lúc nhận việc.",
                 "Hết hạn hoặc hủy thì ủy thác thất bại, nhưng cá trong túi vẫn giữ. Bạn có thể nhận lại và tiếp tục câu.\n\nHoàn thành sẽ nhận xu và kinh nghiệm để tăng cấp cần thủ.",
                 "Đây là chứng nhận cần thủ và ủy thác đầu tiên của bạn: câu một con cá mới ở hồ.\n\nQua cửa hàng bên phải gặp chú chủ tiệm để nhận bộ dây và mồi đầu tiên miễn phí. Sau đó đi tiếp tới biển dẫn ra hồ." }, () => {
-                    guild.Enroll(out var message); GuildBrowser(); status.text = message ?? "Đã nhận chứng nhận và ủy thác đầu tiên. Qua cửa hàng bên phải nhận dây và mồi.";
+                    bool enrolled = guild.Enroll(out var message); GuildBrowser();
+                    if (enrolled && certificateSheet != null && browserPanel != null)
+                    { browserPanel.SetActive(false); certificateSheet.SetActive(true); }
+                    status.text = message ?? "Đã nhận chứng nhận và ủy thác đầu tiên. Qua cửa hàng bên phải nhận dây và mồi.";
                 });
         }
         else GuildBrowser();
     }
     private void PrepareBrowser(string heading, bool shopTabs)
     {
+        SetDialoguePresentation(false);
         title.text = heading; dialogue.SetActive(false); browser.SetActive(true); tabs.SetActive(shopTabs);
         foreach (var row in rows) row.gameObject.SetActive(false);
         rowCount = 0; secondary.gameObject.SetActive(false); primary.gameObject.SetActive(true); primary.interactable = true;
@@ -114,7 +157,11 @@ public sealed class VillagePanelView : MonoBehaviour
     private void AddRow(string name, string detail, Sprite sprite, Action select)
     {
         if (rowCount == rows.Count) rows.Add(Instantiate(rowPrefab, content));
-        var row = rows[rowCount++]; row.gameObject.SetActive(true); row.Bind(name, detail, sprite, select);
+        var row = rows[rowCount++]; row.gameObject.SetActive(true); row.Bind(name, detail, sprite, () =>
+        {
+            foreach (var entry in rows) entry.SetSelected(entry == row);
+            select();
+        });
     }
     private void FinishRows() { LayoutRebuilder.ForceRebuildLayoutImmediate(content); scroll.verticalNormalizedPosition = 1; }
     private void GuildBrowser()
