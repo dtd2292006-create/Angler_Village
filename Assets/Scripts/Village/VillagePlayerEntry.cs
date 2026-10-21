@@ -28,7 +28,7 @@ public sealed class VillagePlayerEntry : MonoBehaviour
                     if (floorHits[i].collider != null && !floorHits[i].collider.transform.IsChildOf(player.transform))
                         highest = Mathf.Max(highest, floorHits[i].point.y);
                 if (!float.IsNegativeInfinity(highest))
-                    player.position = new Vector2(player.position.x, highest - (capsule.bounds.min.y - player.transform.position.y) + 0.01f);
+                    player.position = new Vector2(player.position.x, highest - (capsule.bounds.min.y - player.transform.position.y));
             }
             Physics2D.SyncTransforms();
         }

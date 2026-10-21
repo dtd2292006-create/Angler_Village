@@ -175,7 +175,6 @@ MonoBehaviour:
   fishLabel: {fileID: 1015}
   gearLabel: {fileID: 1019}
   hint: {fileID: 1023}
-  notice: {fileID: 1027}
   chargePanel: {fileID: 1028}
   charge: {fileID: 1054}
 --- !u!1 &1006
@@ -555,7 +554,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1025
 RectTransform:
   m_ObjectHideFlags: 0

@@ -56,3 +56,11 @@ Map, sprite và clip NPC giữ nguyên. Đã xử lý bốn đoạn conflict mar
 Save schema 3 đọc được schema 1/2, giữ cá và trang bị cũ. Quy tắc chỉ có cần áp dụng cho hồ sơ mới; không tự tước dây/mồi từ hồ sơ cũ. Chọn Chơi mới nếu muốn đi đúng luồng khởi đầu; hồ sơ hiện tại được cất thành bản sao trước.
 
 Chưa chạy Unity import/compile/Play Mode/build cho đợt này, theo phạm vi đã thống nhất. Rà soát tĩnh không thay thế xác nhận trong Unity.
+
+## Bổ sung khả năng đọc và đường về
+
+HUD Lake có nút VỀ LÀNG ngay phía trên giữa màn hình, dùng cùng bước xác nhận/lưu/chuyển scene với mục Về làng trong Esc. Kết quả câu được hiển thị bằng FishingResultUI: thẻ nền đậm, ảnh cá hoặc ký hiệu, tiêu đề theo màu và mô tả trong 4,5 giây. Có thông báo riêng cho thành công, đứt dây và thu mồi chưa có cá; không chặn thao tác hoặc đóng băng thời gian.
+
+Khoảng hở chân: đối chiếu Idle/Walk 96×120, PPU 64, hàng alpha cuối kết thúc tại y=113 (6 px trống phía dưới). Với Visual y=0,54, đáy pixel chân ở root y=0,63375. Đáy capsule chỉnh về 0,64375 để bù contact offset 0,01; không sửa clip, pivot, PPU hoặc Scale. Bỏ phần nâng thêm 0,01 khi đặt player ở Village. Chưa quan sát kết quả thực tế trong Unity.
+
+Brief team art: [UI_Art_Brief.md](UI_Art_Brief.md).
