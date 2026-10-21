@@ -177,7 +177,6 @@ MonoBehaviour:
   fishLabel: {fileID: 1015}
   gearLabel: {fileID: 1019}
   hint: {fileID: 1023}
-  notice: {fileID: 1027}
   chargePanel: {fileID: 1028}
   charge: {fileID: 1054}
 --- !u!1 &1006
@@ -557,7 +556,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1025
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1470,13 +1469,12 @@ RectTransform:
   - {fileID: 1108}
   - {fileID: 1118}
   - {fileID: 1128}
-  - {fileID: 31002}
   m_Father: {fileID: 1066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 700, y: 820}
+  m_SizeDelta: {x: 700, y: 720}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1071
 CanvasRenderer:
@@ -2247,7 +2245,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 70, y: -482}
+  m_AnchoredPosition: {x: 70, y: -396}
   m_SizeDelta: {x: 560, y: 66}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1109
@@ -2454,7 +2452,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 70, y: -568}
+  m_AnchoredPosition: {x: 70, y: -482}
   m_SizeDelta: {x: 560, y: 66}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1119
@@ -2658,8 +2656,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 40, y: -666}
-  m_SizeDelta: {x: 620, y: 74}
+  m_AnchoredPosition: {x: 40, y: -600}
+  m_SizeDelta: {x: 620, y: 90}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &1129
 CanvasRenderer:
@@ -7266,6 +7264,7 @@ MonoBehaviour:
   light: {r: 0.91764706, g: 0.827451, b: 0.6313726, a: 1}
   shade: {r: 0.16078432, g: 0.22745098, b: 0.1882353, a: 1}
   selected: 0
+<<<<<<< HEAD
 --- !u!1 &31001
 GameObject:
   m_ObjectHideFlags: 0
@@ -7473,3 +7472,5 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1.15
   m_Text: "V\u1EC1 l\xE0ng"
+=======
+>>>>>>> 2cb2d5e7046422eae558af89917377c662c99650

@@ -20,6 +20,7 @@ Chưa chạy Unity import/compile/Play/build cho đợt Village. Dùng nhánh `c
 - [Village, hướng dẫn đầu game, guild/shop/sổ cá](Docs/Village_FirstTrip.md)
 - [Lake, Main Menu và phạm vi](Docs/Lake_MainMenu.md)
 - [Thêm/bớt cá, cần, dây, mồi](Docs/Inventory_Content.md)
+- [Brief bộ UI cho team art](Docs/UI_Art_Brief.md)
 - [Gắn clip và mixer](Docs/Audio_Setup.md)
 
 Giữ script theo nhiệm vụ, giữ Animator transitions và cho phép chỉnh bố cục UI trong Inspector. Dữ liệu nội dung dùng ID ổn định; không đổi ID hoặc xóa meta của món đã lưu trong hồ sơ.
