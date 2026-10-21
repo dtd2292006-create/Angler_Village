@@ -96,6 +96,8 @@ public class HookController : MonoBehaviour
     // Observers can evaluate line safety before this tick moves/retrieves the hook.
     public event Action<float> PhysicsLoadSampled;
     public event Action<float> PhysicsStepCompleted;
+    // The equipment rig validates ownership without consuming bait at launch.
+    public Func<bool> TryAuthorizeCast { private get; set; }
     public event Action LineBroken;
     public event Action Retrieved;
     public event Action ReturnedToRest;
@@ -224,6 +226,8 @@ public class HookController : MonoBehaviour
 
             return false;
         }
+
+        if (TryAuthorizeCast != null && !TryAuthorizeCast()) return false;
 
         power01 = Mathf.Clamp01(power01);
 

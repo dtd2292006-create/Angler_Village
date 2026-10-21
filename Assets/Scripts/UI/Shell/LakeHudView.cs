@@ -44,7 +44,7 @@ public sealed class LakeHudView : MonoBehaviour
         hint.text = hook == null ? "A/D di chuyển · E nói chuyện · I túi đồ · Esc tạm dừng" : qte.IsFailReelLocked ? "Tạm khóa thu dây sau QTE thất bại" :
             qte.IsActive ? "Nhấp chuột khi kim vào vùng trắng hoặc xanh" :
             hook.IsDeployed ? "Giữ chuột trái để thu · Nhả để mồi chìm" :
-            !hook.CanLaunch ? "Trang bị đủ cần, dây và mồi để câu." : "A/D di chuyển · Giữ/thả chuột để quăng · I túi đồ · Esc tạm dừng";
+            !hook.CanLaunch ? "Thiếu trang bị hoặc hết mồi. Mở túi [I]; hết đồ thì về cửa hàng ở làng." : "A/D di chuyển · Giữ/thả chuột để quăng · I túi đồ · Esc tạm dừng";
     }
     private static string Name(PlayerEquipment equipment, FishingEquipmentKind kind)
     {

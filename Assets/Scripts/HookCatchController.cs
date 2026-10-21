@@ -9,11 +9,14 @@ public class HookCatchController : MonoBehaviour
     public bool HasFish => AttachedFish != null;
     public string LastLandedCatchId { get; private set; }
     public bool CanAcceptFish => isActiveAndEnabled &&
-        hook != null && hook.CanFishBite && !HasFish;
+        hook != null && hook.CanFishBite && !HasFish && !baitConsumedThisCast;
 
     public event Action<FishCatchable> FishLanded;
     public event Action<FishCatchable> AttachedFishChanged;
 
+    // Pay only after a fish has successfully attached, before publishing the bite.
+    public Func<bool> TryPayBiteCost { private get; set; }
+    private bool baitConsumedThisCast;
     private HookController hook;
 
     private void Awake()
@@ -41,6 +44,13 @@ public class HookCatchController : MonoBehaviour
             return false;
         }
 
+        if (TryPayBiteCost != null && !TryPayBiteCost())
+        {
+            AttachedFish = null;
+            fish.ReleaseFromHook();
+            return false;
+        }
+        baitConsumedThisCast = true;
         hook.SetBaitConsumed(true);
         AttachedFishChanged?.Invoke(fish);
         return true;
@@ -50,6 +60,7 @@ public class HookCatchController : MonoBehaviour
     {
         FishCatchable fish = AttachedFish;
         AttachedFish = null;
+        baitConsumedThisCast = false;
         AttachedFishChanged?.Invoke(null);
         if (fish == null) return;
 
@@ -65,7 +76,11 @@ public class HookCatchController : MonoBehaviour
         AttachedFish = null;
         AttachedFishChanged?.Invoke(null);
         if (fish != null) fish.ReleaseFromHook();
-        if (hook != null) hook.SetBaitConsumed(false);
+        if (hook != null)
+        {
+            if (!hook.IsDeployed) baitConsumedThisCast = false;
+            hook.SetBaitConsumed(baitConsumedThisCast);
+        }
     }
 
     public void ForgetFish(FishCatchable fish)
@@ -73,7 +88,11 @@ public class HookCatchController : MonoBehaviour
         if (AttachedFish != fish) return;
         AttachedFish = null;
         AttachedFishChanged?.Invoke(null);
-        if (hook != null) hook.SetBaitConsumed(false);
+        if (hook != null)
+        {
+            if (!hook.IsDeployed) baitConsumedThisCast = false;
+            hook.SetBaitConsumed(baitConsumedThisCast);
+        }
     }
 
     private void OnDisable()

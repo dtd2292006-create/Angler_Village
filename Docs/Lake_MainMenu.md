@@ -42,6 +42,6 @@ Settings: âm lượng tổng/nhạc/hiệu ứng, tắt riêng nhạc hoặc hi
 
 Save: `Application.persistentDataPath/Saves/slot_01/player.json`, có bản dự phòng. Cá, trang bị và đồng hồ được lưu; vị trí player, lượt câu đang diễn ra và cá đang bơi không được khôi phục. Hồ sơ cũ chưa có đồng hồ bắt đầu 08:00, giữ dữ liệu cá/trang bị cũ.
 
-Village, NPC, cửa hàng, guild và ủy thác cơ bản đã được bổ sung; xem Village_FirstTrip.md. Chưa tiêu hao mồi hoặc trừ kho dây khi đứt để tránh làm người chơi hết trang bị trước khi có cửa hàng.
+Village, NPC, cửa hàng, guild và ủy thác cơ bản đã được bổ sung; xem Village_FirstTrip.md. Chỉ khi cá cắn và mắc câu thành công mới dùng 1 mồi; quăng/thu khi chưa có cá cắn không mất mồi. Đứt dây mất 1 dây. Cửa hàng cấp lại dây cơ bản khi hết loại đó và hỗ trợ 1 mồi miễn phí khi hết mọi loại mồi, không đủ xu mua mồi cơ bản.
 
 Chưa chạy Unity import, Play Mode hoặc build cho đợt thay đổi này. Rà soát tĩnh không thay thế việc kiểm tra trong Unity.

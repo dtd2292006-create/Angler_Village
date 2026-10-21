@@ -224,10 +224,12 @@ public sealed class VillagePanelView : MonoBehaviour
             {
                 var offer = shop.Content.equipment[i]; if (offer == null || offer.item == null) continue;
                 int index = i;
-                AddRow(offer.item.DisplayName, offer.price == 0 ? "Miễn phí khi đã hết" : offer.price + " xu", offer.item.Icon, () => {
-                    body.text = offer.item.Description + "\n\nGiá: " + offer.price + " xu\nMua xong mở túi [I] để trang bị.";
+                AddRow(offer.item.DisplayName, shop.HasEmergencyBait(offer.item, offer.price) ? "Mồi cứu trợ miễn phí" : offer.price == 0 ? "Miễn phí khi đã hết" : offer.price + " xu", offer.item.Icon, () => {
+                    bool emergency = shop.HasEmergencyBait(offer.item, offer.price);
+                    body.text = offer.item.Description + "\n\nGiá: " + (emergency ? 0 : offer.price) + " xu\nMua xong mở túi [I] để trang bị." +
+                        "\n\nCá cắn thành công mới dùng 1 mồi; chưa cắn thì không mất mồi. Dây chỉ mất khi đứt. Hết mọi loại mồi và không đủ xu mua mồi cơ bản thì được nhận 1 mồi cứu trợ miễn phí.";
                     primaryLabel.text = "Mua 1"; primary.interactable = true;
-                    primaryAction = () => { shop.BuyEquipment(index, out var message); status.text = message; };
+                    primaryAction = () => { shop.BuyEquipment(index, out var message); ShopTab(0); status.text = message; };
                 });
             }
         }

@@ -32,7 +32,7 @@ Chỉ có **Mua đồ / Bán cá / Bán đồ**. Không mua cá từ cửa hàng
 
 Giá ở `VillageContent_Main.asset`, không gắn cứng vào UI. Hiện có đúng các trang bị đã có art/data: cần tre, dây cơ bản, mồi giun. Cần tre 30 xu, mồi giun 5 xu; dây cơ bản cấp miễn phí khi đã hết loại đó. Giá cá bán mẫu 8/10/12 xu theo loài trong danh sách. Bán trang bị được nửa giá mua; giữ lại ít nhất một cần và một mồi để tránh mất khả năng tiếp tục câu. Đây là giá tạm để chỉnh cân bằng sau.
 
-Món mua thêm nằm trong túi, người chơi chọn trang bị bằng I. Bộ miễn phí đầu game tự trang bị. Chưa bổ sung tiêu hao mồi theo lượt quăng hoặc trừ stack dây khi đứt trong đợt này; cơ chế đứt dây gameplay cũ vẫn hoạt động.
+Món mua thêm nằm trong túi, người chơi chọn trang bị bằng I. Bộ miễn phí đầu game tự trang bị. Cá cắn và mắc câu thành công mới dùng 1 mồi; quăng/thu khi chưa có cá cắn không mất mồi. Sau khi cá cắn, cá thoát cũng không hoàn mồi. Đứt dây mất 1 dây. Lượt dùng mồi cuối vẫn hoàn thành bình thường. Hết mọi loại mồi và không đủ xu mua mồi cơ bản thì có thể nhận 1 mồi cứu trợ miễn phí tại cửa hàng. Xem thêm Build_Submission.md để kiểm tra trước khi nộp.
 
 ## Sổ cá kiểu Pokédex
 

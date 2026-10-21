@@ -59,6 +59,15 @@ public sealed class PlayerEquipment : MonoBehaviour
         return true;
     }
 
+    // Gameplay consumption must work during a cast, unlike manual inventory removal.
+    internal bool TryConsumeEquipped(FishingEquipmentKind kind, string expectedId)
+    {
+        if (!IsReady || string.IsNullOrEmpty(expectedId) ||
+            state.EquippedId(kind) != expectedId || !state.Remove(expectedId, 1)) return false;
+        Changed?.Invoke();
+        return true;
+    }
+
     public bool TryEquip(string id, out string message)
     {
         message = null;

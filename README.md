@@ -74,6 +74,10 @@ Hồ sơ đặt tại `Application.persistentDataPath/Saves/slot_01/player.json`
 
 Bản âm thanh gọn có nhạc cho Menu/Làng/Hồ, môi trường, bước chân, thao tác câu, QTE và UI. Ba bản nhạc dùng đoạn lặp 24 giây để giảm dung lượng. Mixer tách Master, Music và SFX; cài đặt có volume/mute riêng cho nhạc và hiệu ứng. Nguồn và giấy phép nằm trong `Assets/Audio/Licenses/`.
 
+## Build và ảnh minh chứng
+
+Xem [Hướng dẫn build bản Windows và chụp ảnh](Docs/Build_Submission.md).
+
 ## Tài liệu chi tiết
 
 - [Luồng làng, guild và cửa hàng](Docs/Village_FirstTrip.md)
@@ -84,4 +88,4 @@ Bản âm thanh gọn có nhạc cho Menu/Làng/Hồ, môi trường, bước ch
 
 ## Phạm vi phiên bản
 
-Đã có luồng Menu → Làng → Hồ → giao/bán cá, QTE, đứt dây, túi đồ, sổ cá, ủy thác và lưu hồ sơ. Hiện chưa tự trừ số lượng mồi khi câu hoặc số lượng dây trong kho khi đứt; mở thêm khu vực và nâng cấp trang bị đa cấp là phần phát triển tiếp. Âm thanh phụ cho giao dịch/ủy thác chưa được nối trong bản gọn. Kiểm tra tĩnh không thay thế Unity import/compile, Play Mode hoặc kiểm thử bản build; chưa có kết quả xác nhận các bước này cho bản cập nhật hiện tại.
+Đã có luồng Menu → Làng → Hồ → giao/bán cá, QTE, đứt dây, túi đồ, sổ cá, ủy thác và lưu hồ sơ. Chỉ khi cá cắn và mắc câu thành công mới trừ 1 mồi; quăng rồi thu về khi chưa có cá cắn không mất mồi. Sau khi cá đã cắn, dù bắt được cá hay cá thoát cũng không hoàn lại mồi và không trừ thêm lần nữa. Dây chỉ mất 1 đơn vị khi đứt, thu dây bình thường không mất dây. Lượt dùng mồi cuối vẫn hoàn thành bình thường; lần quăng sau cần thêm mồi. Cửa hàng cấp dây cơ bản miễn phí khi hết loại dây đó; nếu hết mọi loại mồi và không đủ xu mua mồi cơ bản, có thể nhận 1 mồi cứu trợ miễn phí. Nhận/mua xong mở túi [I] để trang bị. Mở thêm khu vực và nâng cấp trang bị đa cấp là hướng phát triển. Âm thanh phụ cho giao dịch/ủy thác chưa được nối trong bản gọn. Kiểm tra tĩnh không thay thế Unity import/compile, Play Mode hoặc kiểm thử bản build; chưa có kết quả xác nhận các bước này cho bản cập nhật hiện tại.

@@ -30,24 +30,36 @@ public sealed class ShopService : MonoBehaviour
         foreach (var item in Equipment.Items) if (item.ItemId == definition.ItemId && item.Quantity == int.MaxValue) return false;
         return true;
     }
+    public bool HasEmergencyBait(FishingEquipmentDefinition item, int price)
+    {
+        if (Progress == null || Equipment == null || item == null || item != content.starterBait ||
+            price <= 0 || Progress.Coins >= price) return false;
+        foreach (var owned in Equipment.Items)
+            if (owned.Kind == FishingEquipmentKind.Bait && owned.Quantity > 0) return false;
+        return true;
+    }
     public bool BuyEquipment(int index, out string message)
     {
         message = null;
         if (Progress == null || !Progress.Certified || !Progress.StarterKitClaimed) { message = "Nhận bộ khởi đầu miễn phí trước nhé."; return false; }
         if (index < 0 || index >= content.equipment.Length) return false;
         var offer = content.equipment[index];
-        if (offer == null || offer.price < 0 || !CanGrant(offer.item) || Progress.Coins < offer.price)
+        bool emergency = offer != null && HasEmergencyBait(offer.item, offer.price);
+        int price = emergency ? 0 : offer != null ? offer.price : -1;
+        if (offer == null || price < 0 || !CanGrant(offer.item) || Progress.Coins < price)
         { message = "Không đủ xu hoặc vật phẩm chưa sẵn sàng."; return false; }
         // Free basic line is a recovery, not an unlimited stack grant.
-        if (offer.price == 0)
+        if (price == 0)
             foreach (var item in Equipment.Items) if (item.ItemId == offer.item.ItemId && item.Quantity > 0)
             { message = "Bạn vẫn còn vật phẩm này. Hãy trang bị trong túi đồ."; return false; }
         using (Inventory.GetComponent<PlayerSaveController>().DeferWrites())
         {
             if (!Equipment.TryGrant(offer.item.ItemId, 1, out message)) return false;
-            Progress.Spend(offer.price); Progress.Notify();
+            Progress.Spend(price); Progress.Notify();
         }
-        message = "Đã mua " + offer.item.DisplayName + ". Trang bị trong túi đồ [I]."; return true;
+        message = emergency ? "Đã nhận 1 mồi cứu trợ miễn phí. Trang bị trong túi [I] để tiếp tục câu." :
+            "Đã mua " + offer.item.DisplayName + ". Trang bị trong túi đồ [I].";
+        return true;
     }
     public int EquipmentSellPrice(string id)
     {
