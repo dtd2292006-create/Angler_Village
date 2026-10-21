@@ -1,0 +1,51 @@
+ANGLER VILLAGE - AUDIO CREDITS
+Selected and integrated on 2026-10-22.
+
+License selected for every supplied audio asset: CC0 1.0 Universal.
+https://creativecommons.org/publicdomain/zero/1.0/
+The Fisheefects page offers multiple license choices; this project uses its CC0 option.
+
+MUSIC
+Holizna / HoliznaCC0 - Quiet Village (Collection)
+https://opengameart.org/content/quiet-village-collection
+The source author identifies this collection as public-domain CC0 music.
+Main menu: Quiet Village 1
+Village: Quiet Village 2
+Lake: Quiet Village 4
+
+AMBIENCE
+Thimras - Park ambiences
+https://opengameart.org/content/park-ambiences
+Original files: park_ambience_birds.wav, park_ambience_river.wav.
+Source page license: CC0.
+These are general outdoor recordings, recorded in Adelaide, Australia;
+they are not presented as recordings made in Vietnam.
+
+FISHING FOLEY
+Memoraphile @ You're Perfect Studio - Fisheefects
+https://opengameart.org/content/fisheefects
+Original files used: bloop.wav, reel.wav, splash.wav.
+Source page offers CC0 and permits use with or without attribution.
+
+UI, FOOTSTEPS, FOLEY AND JINGLES
+Kenney / Kenney Vleugels
+https://kenney.nl/assets/interface-sounds
+https://kenney.nl/assets/rpg-audio
+https://kenney.nl/assets/music-jingles
+Original pack license files are included beside this file.
+
+MODIFICATIONS
+Clips were renamed, decoded/resampled to 44.1 kHz, level-conditioned,
+and trimmed. Short one-shots have small edge fades. Loop clips have an
+overlap crossfade at the boundary. Ambiences use 45-second source sections.
+Music and continuous loops were encoded as Ogg Vorbis; one-shots are PCM WAV.
+The casting whoosh adapts Kenney's knifeSlice.ogg foley; the line snap adapts
+pluck_001.ogg. No original authored soundtrack or exclusive rights are claimed.
+
+AudioManifest.json records each final asset, original filename, source page,
+license choice, processing, duration and source/output SHA-256 hashes.
+
+COMPACT VERSION
+Only the 19 core cues are shipped. Background music uses 24-second mono
+22050 Hz excerpts with short edge fades; these excerpts repeat in-game.
+No shop, commission or progression audio adapters are added in this version.
