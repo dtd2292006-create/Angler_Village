@@ -24,11 +24,40 @@ public static class EquipmentInventoryChecks
             var legacy = fish.Export();
             legacy.schemaVersion = 1;
             legacy.equipment = null;
-            File.WriteAllText(path, JsonUtility.ToJson(legacy));
+            // Exact old DTO: no equipment field at all.
+            File.WriteAllText(path, JsonUtility.ToJson(new LegacyFishProfile
+            {
+                format = legacy.format, schemaVersion = 1,
+                lastCatchSequence = legacy.lastCatchSequence, caughtFish = legacy.caughtFish
+            }));
             var store = new PlayerSaveFileStore(path);
             Require(store.Load(out var restoredFish, out _) == PlayerSaveLoadStatus.Loaded && restoredFish.Count == 1,
                 "v1 fish must load unchanged.");
-            Require(store.LoadedEquipment == null, "v1 profile must be recognizable for starter grant.");
+            Require(store.LoadedEquipment == null && store.RequiresProfileUpgrade,
+                "v1 profile must be recognizable for starter grant.");
+            // A v1 fixture serialized with today's DTO can contain an inline empty object too.
+            legacy.equipment = new EquipmentSaveData();
+            File.WriteAllText(path, JsonUtility.ToJson(legacy));
+            Require(store.Load(out restoredFish, out _) == PlayerSaveLoadStatus.Loaded &&
+                store.LoadedEquipment == null && restoredFish.Count == 1,
+                "v1 inline placeholders must not suppress the starter kit.");
+            // Repair the early v2 bug, but never replenish a deliberately empty, initialized profile.
+            legacy.schemaVersion = 2;
+            legacy.equipmentInitialized = false;
+            File.WriteAllText(path, JsonUtility.ToJson(legacy));
+            Require(store.Load(out restoredFish, out _) == PlayerSaveLoadStatus.Loaded &&
+                store.LoadedEquipment == null && store.RequiresProfileUpgrade,
+                "Early v2 placeholder must be eligible for a one-time starter grant.");
+            legacy.equipmentInitialized = true;
+            File.WriteAllText(path, JsonUtility.ToJson(legacy));
+            Require(store.Load(out restoredFish, out _) == PlayerSaveLoadStatus.Loaded &&
+                store.LoadedEquipment != null && store.LoadedEquipment.items.Count == 0 &&
+                !store.RequiresProfileUpgrade,
+                "An explicitly initialized empty loadout must not receive starter items again.");
+            legacy.equipmentInitialized = false;
+            File.WriteAllText(path, JsonUtility.ToJson(legacy));
+            Require(store.Load(out restoredFish, out _) == PlayerSaveLoadStatus.Loaded &&
+                store.LoadedEquipment == null, "Restore the starter migration fixture.");
             Require(EquipmentInventory.TryRestore(store.LoadedEquipment, out var equipment, out _), "Legacy equipment init failed.");
             catalog.Seed(equipment);
             Require(equipment.Items.Count == 3, "Expected the current rod, line and bait as starter items.");
@@ -36,7 +65,16 @@ public static class EquipmentInventoryChecks
             var secondStore = new PlayerSaveFileStore(path);
             Require(secondStore.Load(out var secondFish, out _) == PlayerSaveLoadStatus.Loaded && secondFish.Count == 1,
                 "v2 round trip must preserve fish.");
-            Require(secondStore.LoadedEquipment != null, "Starter grant must not run again after reload.");
+            Require(secondStore.LoadedEquipment != null && !secondStore.RequiresProfileUpgrade,
+                "Starter grant must not run again after reload.");
+            // Non-empty early v2 equipment must be preserved, not reset to defaults.
+            var oldV2 = secondFish.Export();
+            oldV2.equipment = secondStore.LoadedEquipment;
+            oldV2.equipmentInitialized = false;
+            File.WriteAllText(path, JsonUtility.ToJson(oldV2));
+            Require(secondStore.Load(out secondFish, out _) == PlayerSaveLoadStatus.Loaded &&
+                secondStore.LoadedEquipment != null && secondStore.RequiresProfileUpgrade,
+                "Existing early v2 equipment must survive addition of the initialization marker.");
             Require(EquipmentInventory.TryRestore(secondStore.LoadedEquipment, out var reloaded, out _), "Loadout round trip failed.");
             foreach (var owned in equipment.Items)
                 Require(reloaded.Find(owned.ItemId).Quantity == owned.Quantity && reloaded.EquippedId(owned.Kind) == owned.ItemId,
@@ -71,6 +109,15 @@ public static class EquipmentInventoryChecks
         catch (Exception error) { Debug.LogException(error); }
         finally { if (Directory.Exists(directory)) Directory.Delete(directory, true); }
     }
+    [Serializable]
+    private sealed class LegacyFishProfile
+    {
+        public string format;
+        public int schemaVersion;
+        public long lastCatchSequence;
+        public System.Collections.Generic.List<CaughtFishSaveEntry> caughtFish;
+    }
+
     private static void Require(bool valid, string message)
     { if (!valid) throw new InvalidOperationException(message); }
 }

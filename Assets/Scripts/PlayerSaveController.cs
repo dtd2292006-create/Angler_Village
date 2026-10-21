@@ -61,7 +61,7 @@ public class PlayerSaveController : MonoBehaviour
         inventory.Changed += HandleChanged;
         equipment.Changed += HandleChanged;
         if (!string.IsNullOrEmpty(message)) Debug.LogWarning(message, this);
-        dirty = result != PlayerSaveLoadStatus.Loaded || needsEquipmentSeed;
+        dirty = result != PlayerSaveLoadStatus.Loaded || needsEquipmentSeed || store.RequiresProfileUpgrade;
         if (dirty) SaveNow();
         Debug.Log("Player data ready. Fish=" + inventory.FishCount + "\nSave: " + savePath, this);
     }

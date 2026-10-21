@@ -12,6 +12,7 @@ public sealed class PlayerSaveFileStore
     public string BackupPath => FullPath + ".bak";
     public string TemporaryPath => FullPath + ".tmp";
     public EquipmentSaveData LoadedEquipment { get; private set; }
+    public bool RequiresProfileUpgrade { get; private set; }
 
     public PlayerSaveFileStore(string fullPath)
     {
@@ -25,6 +26,7 @@ public sealed class PlayerSaveFileStore
         inventory = null;
         message = null;
         LoadedEquipment = null;
+        RequiresProfileUpgrade = false;
         bool primaryExists = File.Exists(FullPath);
         bool backupExists = File.Exists(BackupPath);
         bool tempExists = File.Exists(TemporaryPath);
@@ -99,6 +101,7 @@ public sealed class PlayerSaveFileStore
             Directory.CreateDirectory(Path.GetDirectoryName(FullPath));
             PlayerSaveData data = inventory.Export();
             data.equipment = equipment;
+            data.equipmentInitialized = equipment != null;
             if (!EquipmentInventory.TryRestore(equipment, out var checkedEquipment, out var equipmentError))
                 throw new InvalidDataException(equipmentError);
             byte[] bytes = new UTF8Encoding(false).GetBytes(JsonUtility.ToJson(data, true));
@@ -126,6 +129,16 @@ public sealed class PlayerSaveFileStore
         }
     }
 
+    private static bool IsLegacyPlaceholder(EquipmentSaveData data)
+    {
+        if (data == null) return true;
+        // Never interpret malformed loadouts or future equipment versions as an empty starter profile.
+        bool defaultVersion = data.version == 0 || data.version == 1;
+        bool emptyItems = data.items != null ? data.items.Count == 0 : data.version == 0;
+        return defaultVersion && emptyItems && string.IsNullOrEmpty(data.rodId) &&
+            string.IsNullOrEmpty(data.lineId) && string.IsNullOrEmpty(data.baitId);
+    }
+
     private bool TryRead(string path, out FishInventory inventory, out string error, out bool newerSchema)
     {
         inventory = null;
@@ -138,12 +151,28 @@ public sealed class PlayerSaveFileStore
             newerSchema = data != null && data.format == PlayerSaveSchema.Format &&
                 data.schemaVersion > PlayerSaveSchema.CurrentVersion;
             if (!FishInventory.TryRestore(data, out inventory, out error)) return false;
+            // v1 never had equipment. Ignore any inline placeholder JsonUtility constructs.
+            // Early v2 builds could save that placeholder without granting the starter kit.
+            if (data.schemaVersion == 1 ||
+                (!data.equipmentInitialized && IsLegacyPlaceholder(data.equipment)))
+            {
+                LoadedEquipment = null;
+                RequiresProfileUpgrade = true;
+                return true;
+            }
+            if (data.equipmentInitialized && data.equipment == null)
+            {
+                inventory = null;
+                error = "Initialized equipment data is missing.";
+                return false;
+            }
             if (!EquipmentInventory.TryRestore(data.equipment, out var checkedEquipment, out error))
             {
                 inventory = null;
                 return false;
             }
             LoadedEquipment = data.equipment;
+            RequiresProfileUpgrade = !data.equipmentInitialized;
             return true;
         }
         catch (Exception exception)
