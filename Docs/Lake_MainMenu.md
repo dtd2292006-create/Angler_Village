@@ -4,6 +4,8 @@ Unity 6000.3.7f1 · Universal 2D · PC.
 
 ## Scene và luồng chơi
 
+Luồng Village mới được mô tả ở [Village_FirstTrip.md](Village_FirstTrip.md). Chơi mới hiện vào Village, Tiếp tục dùng scene đã lưu.
+
 Mở `Assets/Scenes/MainMenu.unity`. Build Settings đã liệt kê MainMenu trước Lake để chuyển scene bằng tên. Scene gốc `Assets/_Recovery/Test.unity` được giữ làm bản tham chiếu, không bị thay thế.
 
 - Chơi mới: xác nhận trước; chuyển thư mục save hiện tại sang bản sao có dấu thời gian, rồi tạo hồ sơ mới.
@@ -40,6 +42,6 @@ Settings: âm lượng tổng/nhạc/hiệu ứng, tắt riêng nhạc hoặc hi
 
 Save: `Application.persistentDataPath/Saves/slot_01/player.json`, có bản dự phòng. Cá, trang bị và đồng hồ được lưu; vị trí player, lượt câu đang diễn ra và cá đang bơi không được khôi phục. Hồ sơ cũ chưa có đồng hồ bắt đầu 08:00, giữ dữ liệu cá/trang bị cũ.
 
-Village, NPC, cửa hàng, guild, ủy thác và kinh tế sẽ làm sau khi có map Village. Chưa tiêu hao mồi hoặc trừ kho dây khi đứt để tránh làm người chơi hết trang bị trước khi có cửa hàng.
+Village, NPC, cửa hàng, guild và ủy thác cơ bản đã được bổ sung; xem Village_FirstTrip.md. Chưa tiêu hao mồi hoặc trừ kho dây khi đứt để tránh làm người chơi hết trang bị trước khi có cửa hàng.
 
 Chưa chạy Unity import, Play Mode hoặc build cho đợt thay đổi này. Rà soát tĩnh không thay thế việc kiểm tra trong Unity.

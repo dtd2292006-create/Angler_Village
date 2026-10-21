@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 8fb5451584d08af5b9d61479718d94be
   - enabled: 1
+    path: Assets/Scenes/Village.unity
+    guid: 2233db38c22a9cc4686c449e4f373467
+  - enabled: 1
     path: Assets/Scenes/Lake.unity
     guid: d2dc5ab35ffc6eb00e270970e563360f
   m_configObjects:

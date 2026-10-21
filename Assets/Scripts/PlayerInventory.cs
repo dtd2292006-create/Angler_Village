@@ -15,6 +15,7 @@ public class PlayerInventory : MonoBehaviour
     public static PlayerInventory Instance { get; private set; }
     public bool IsPrimary => Instance == this;
     public bool IsReady { get; private set; }
+    public FishCatalog Catalog => fishCatalog;
     public int FishCount => state.Count;
     public long LastCatchSequence => state.LastCatchSequence;
     public IReadOnlyList<CaughtFishInstance> Fish => state.Fish;
@@ -75,8 +76,12 @@ public class PlayerInventory : MonoBehaviour
             message = error.Message;
             return false;
         }
-        UpdateDebug();
-        Changed?.Invoke();
+        using (GetComponent<PlayerSaveController>().DeferWrites())
+        {
+            UpdateDebug();
+            PlayerProgress.Current?.Discover(species.SpeciesId);
+            Changed?.Invoke();
+        }
         return true;
     }
 

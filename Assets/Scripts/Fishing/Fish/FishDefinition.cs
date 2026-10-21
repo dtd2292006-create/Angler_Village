@@ -126,6 +126,7 @@ public class FishDefinition : ScriptableObject
     public Vector2 MediumQteInterval => mediumQteInterval;
     public Vector2 RedQteInterval => redQteInterval;
 
+    public System.Collections.Generic.IReadOnlyList<BaitDefinition> PreferredBaits => preferredBaits;
     public string DisplayName => displayName;
     public Sprite Sprite => sprite;
     public bool SpriteFacesRight => spriteFacesRight;

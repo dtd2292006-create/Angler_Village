@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-public enum AudioCue { MenuMusic, LakeMusic, Ambience, Step, Cast, Splash, Reel, Bite, QteAppear, Good, Great, Fail, LineBreak, FishLanded, UiClick, UiOpen, UiClose }
+public enum AudioCue { MenuMusic, LakeMusic, Ambience, Step, Cast, Splash, Reel, Bite, QteAppear, Good, Great, Fail, LineBreak, FishLanded, UiClick, UiOpen, UiClose, VillageMusic, VillageAmbience }
 [Serializable]
 public sealed class AudioCueSource { public AudioCue cue; public AudioSource source; }
 
@@ -23,7 +23,7 @@ public sealed class GameAudio : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         foreach (var entry in sources)
             if (entry != null && entry.source != null) entry.source.ignoreListenerPause = entry.cue == AudioCue.MenuMusic ||
-                entry.cue == AudioCue.LakeMusic || entry.cue == AudioCue.UiClick || entry.cue == AudioCue.UiOpen || entry.cue == AudioCue.UiClose;
+                entry.cue == AudioCue.LakeMusic || entry.cue == AudioCue.VillageMusic || entry.cue == AudioCue.UiClick || entry.cue == AudioCue.UiOpen || entry.cue == AudioCue.UiClose;
         GameSettings.Changed += ApplyVolumes;
         SceneManager.sceneLoaded += SceneLoaded;
     }
@@ -34,8 +34,9 @@ public sealed class GameAudio : MonoBehaviour
         if (activeScene == name) return;
         activeScene = name;
         foreach (var entry in sources) if (entry != null && entry.source != null && entry.source.loop) entry.source.Stop();
-        SetLoop(name == "MainMenu" ? AudioCue.MenuMusic : AudioCue.LakeMusic, true);
-        SetLoop(AudioCue.Ambience, name != "MainMenu");
+        SetLoop(name == "MainMenu" ? AudioCue.MenuMusic : name == "Village" ? AudioCue.VillageMusic : AudioCue.LakeMusic, true);
+        SetLoop(AudioCue.Ambience, name == "Lake");
+        SetLoop(AudioCue.VillageAmbience, name == "Village");
     }
     private AudioSource Find(AudioCue cue)
     {

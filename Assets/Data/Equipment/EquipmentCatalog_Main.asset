@@ -20,9 +20,3 @@ MonoBehaviour:
   - definition: {fileID: 11400000, guid: 4ead1845a2b86142824e20fca6fb0184, type: 2}
     quantity: 1
     equip: 1
-  - definition: {fileID: 11400000, guid: bd4204bdc67722cfadd1be3ef7c63ace, type: 2}
-    quantity: 1
-    equip: 1
-  - definition: {fileID: 11400000, guid: a28becfc061925a28a3f2255a6bcce64, type: 2}
-    quantity: 1
-    equip: 1

@@ -52,15 +52,15 @@ public static class EquipmentInventoryChecks
             File.WriteAllText(path, JsonUtility.ToJson(legacy));
             Require(store.Load(out restoredFish, out _) == PlayerSaveLoadStatus.Loaded &&
                 store.LoadedEquipment != null && store.LoadedEquipment.items.Count == 0 &&
-                !store.RequiresProfileUpgrade,
-                "An explicitly initialized empty loadout must not receive starter items again.");
+                store.RequiresProfileUpgrade,
+                "An empty loadout stays empty while the new progress section is migrated.");
             legacy.equipmentInitialized = false;
             File.WriteAllText(path, JsonUtility.ToJson(legacy));
             Require(store.Load(out restoredFish, out _) == PlayerSaveLoadStatus.Loaded &&
                 store.LoadedEquipment == null, "Restore the starter migration fixture.");
             Require(EquipmentInventory.TryRestore(store.LoadedEquipment, out var equipment, out _), "Legacy equipment init failed.");
             catalog.Seed(equipment);
-            Require(equipment.Items.Count == 3, "Expected the current rod, line and bait as starter items.");
+            Require(equipment.Items.Count == 1 && equipment.Items[0].Kind == FishingEquipmentKind.Rod, "New profiles start with only the default rod.");
             Require(store.TrySave(restoredFish, equipment.Export(), out var error), error);
             var secondStore = new PlayerSaveFileStore(path);
             Require(secondStore.Load(out var secondFish, out _) == PlayerSaveLoadStatus.Loaded && secondFish.Count == 1,
@@ -121,3 +121,4 @@ public static class EquipmentInventoryChecks
     private static void Require(bool valid, string message)
     { if (!valid) throw new InvalidOperationException(message); }
 }
+

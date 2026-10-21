@@ -13,6 +13,7 @@ public sealed class PlayerSaveFileStore
     public string TemporaryPath => FullPath + ".tmp";
     public EquipmentSaveData LoadedEquipment { get; private set; }
     public bool RequiresProfileUpgrade { get; private set; }
+    public ProgressSaveData LoadedProgress { get; private set; }
     public double LoadedWorldMinutes { get; private set; } = 480;
 
     public PlayerSaveFileStore(string fullPath)
@@ -29,6 +30,7 @@ public sealed class PlayerSaveFileStore
         LoadedEquipment = null;
         RequiresProfileUpgrade = false;
         LoadedWorldMinutes = 480;
+        LoadedProgress = null;
         bool primaryExists = File.Exists(FullPath);
         bool backupExists = File.Exists(BackupPath);
         bool tempExists = File.Exists(TemporaryPath);
@@ -91,6 +93,11 @@ public sealed class PlayerSaveFileStore
 
     public bool TrySave(FishInventory inventory, EquipmentSaveData equipment, double worldMinutes, out string error)
     {
+        return TrySave(inventory, equipment, worldMinutes, LoadedProgress ?? new ProgressSaveData(), out error);
+    }
+
+    public bool TrySave(FishInventory inventory, EquipmentSaveData equipment, double worldMinutes, ProgressSaveData progress, out string error)
+    {
         error = null;
         try
         {
@@ -111,6 +118,9 @@ public sealed class PlayerSaveFileStore
                 throw new InvalidDataException("Invalid world clock.");
             data.worldTimeInitialized = true;
             data.worldMinutes = worldMinutes;
+            if (!ProgressSaveData.Validate(progress, out var progressError)) throw new InvalidDataException(progressError);
+            data.progressInitialized = true;
+            data.progress = progress.Copy();
             data.equipment = equipment;
             data.equipmentInitialized = equipment != null;
             if (!EquipmentInventory.TryRestore(equipment, out var checkedEquipment, out var equipmentError))
@@ -165,6 +175,8 @@ public sealed class PlayerSaveFileStore
             if (data.worldTimeInitialized && (double.IsNaN(data.worldMinutes) || double.IsInfinity(data.worldMinutes) || data.worldMinutes < 0))
             { inventory = null; error = "Invalid world clock."; return false; }
             LoadedWorldMinutes = data.worldTimeInitialized ? data.worldMinutes : 480;
+            if (data.progressInitialized && !ProgressSaveData.Validate(data.progress, out error)) { inventory = null; return false; }
+            LoadedProgress = data.progressInitialized ? data.progress.Copy() : null;
             // v1 never had equipment. Ignore any inline placeholder JsonUtility constructs.
             // Early v2 builds could save that placeholder without granting the starter kit.
             if (data.schemaVersion == 1 ||
@@ -186,7 +198,7 @@ public sealed class PlayerSaveFileStore
                 return false;
             }
             LoadedEquipment = data.equipment;
-            RequiresProfileUpgrade = !data.equipmentInitialized;
+            RequiresProfileUpgrade = !data.equipmentInitialized || !data.progressInitialized || data.schemaVersion < PlayerSaveSchema.CurrentVersion;
             return true;
         }
         catch (Exception exception)

@@ -9,24 +9,39 @@ public static class FishInventoryEditorTools
     {
         string[] guids = AssetDatabase.FindAssets("t:FishDefinition");
         Array.Sort(guids, StringComparer.Ordinal);
+        var definitions = new System.Collections.Generic.List<FishDefinition>();
+        var seen = new System.Collections.Generic.HashSet<FishDefinition>();
+        // Keep existing journal display order; append newly authored species.
+        foreach (var fish in catalog.Definitions)
+            if (fish != null && seen.Add(fish)) definitions.Add(fish);
+        foreach (var guid in guids)
+        {
+            var fish = AssetDatabase.LoadAssetAtPath<FishDefinition>(AssetDatabase.GUIDToAssetPath(guid));
+            if (fish != null && seen.Add(fish)) definitions.Add(fish);
+        }
+        var ids = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
+        foreach (var fish in definitions)
+        {
+            string id = string.IsNullOrWhiteSpace(fish.SpeciesId) ? AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(fish)) : fish.SpeciesId;
+            if (!ids.Add(id)) { Debug.LogError("Duplicate species ID: " + id + ". Give a new species its own ID before refreshing.", fish); return; }
+        }
         SerializedObject catalogData = new SerializedObject(catalog);
         SerializedProperty list = catalogData.FindProperty("fishDefinitions");
-        list.arraySize = guids.Length;
-        for (int i = 0; i < guids.Length; i++)
+        list.arraySize = definitions.Count;
+        for (int i = 0; i < definitions.Count; i++)
         {
-            FishDefinition fish = AssetDatabase.LoadAssetAtPath<FishDefinition>(AssetDatabase.GUIDToAssetPath(guids[i]));
-            SerializedObject fishData = new SerializedObject(fish);
-            SerializedProperty id = fishData.FindProperty("speciesId");
-            id.stringValue = guids[i];
-            fishData.ApplyModifiedProperties();
-            AssetDatabase.SaveAssetIfDirty(fish);
+            var fish = definitions[i];
+            if (string.IsNullOrWhiteSpace(fish.SpeciesId))
+            {
+                var fishData = new SerializedObject(fish);
+                fishData.FindProperty("speciesId").stringValue = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(fish));
+                fishData.ApplyModifiedProperties(); AssetDatabase.SaveAssetIfDirty(fish);
+            }
             list.GetArrayElementAtIndex(i).objectReferenceValue = fish;
         }
-        catalogData.ApplyModifiedProperties();
-        catalog.RebuildIndex();
-        EditorUtility.SetDirty(catalog);
-        AssetDatabase.SaveAssetIfDirty(catalog);
-        Debug.Log("Fish catalog refreshed: " + guids.Length + " species. IDs use asset GUIDs; keep .meta files.", catalog);
+        catalogData.ApplyModifiedProperties(); catalog.RebuildIndex();
+        EditorUtility.SetDirty(catalog); AssetDatabase.SaveAssetIfDirty(catalog);
+        Debug.Log("Fish catalog refreshed: " + definitions.Count + " species. Existing IDs/order preserved; keep .meta files.", catalog);
     }
 }
 
@@ -124,3 +139,4 @@ public class FishInventorySetupWindow : EditorWindow
         serialized.ApplyModifiedProperties();
     }
 }
+

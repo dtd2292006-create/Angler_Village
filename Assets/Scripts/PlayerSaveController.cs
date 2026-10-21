@@ -16,6 +16,8 @@ public class PlayerSaveController : MonoBehaviour
     private PlayerInventory inventory;
     private PlayerEquipment equipment;
     private PlayerWorldClock clock;
+    private PlayerProgress progress;
+    private int writeDeferrals;
     private double lastSavedMinutes;
     private PlayerSaveFileStore store;
     private float nextRetry;
@@ -63,6 +65,11 @@ public class PlayerSaveController : MonoBehaviour
         clock.Initialize(store.LoadedWorldMinutes);
         lastSavedMinutes = clock.ElapsedMinutes;
         clock.SaveRequested += HandleChanged;
+        progress = GetComponent<PlayerProgress>();
+        if (progress == null) progress = gameObject.AddComponent<PlayerProgress>();
+        progress.Initialize(store.LoadedProgress);
+        if (store.LoadedProgress == null) progress.ImportExistingFish(loaded.Fish);
+        progress.Changed += HandleChanged;
         inventory.Initialize(loaded);
         ownsProfile = true;
         inventory.Changed += HandleChanged;
@@ -76,16 +83,30 @@ public class PlayerSaveController : MonoBehaviour
     private void HandleChanged()
     {
         dirty = true;
-        SaveNow();
+        if (writeDeferrals == 0) SaveNow();
+    }
+
+    public System.IDisposable DeferWrites() { writeDeferrals++; return new WriteScope(this); }
+    private sealed class WriteScope : System.IDisposable
+    {
+        private PlayerSaveController owner;
+        public WriteScope(PlayerSaveController value) { owner = value; }
+        public void Dispose()
+        {
+            if (owner == null) return;
+            owner.writeDeferrals--;
+            if (owner.writeDeferrals == 0 && owner.dirty) owner.SaveNow();
+            owner = null;
+        }
     }
 
     public bool SaveNow()
     {
-        if (!ownsProfile || !inventory.IsReady) return false;
+        if (!ownsProfile || !inventory.IsReady || writeDeferrals > 0) return false;
         if (clock != null && clock.ElapsedMinutes != lastSavedMinutes) dirty = true;
         if (!dirty) return true;
         string error;
-        if (store.TrySave(inventory.State, equipment.State.Export(), clock.ElapsedMinutes, out error))
+        if (store.TrySave(inventory.State, equipment.State.Export(), clock.ElapsedMinutes, progress.Export(), out error))
         {
             lastSavedMinutes = clock.ElapsedMinutes;
             dirty = false;
@@ -115,6 +136,7 @@ public class PlayerSaveController : MonoBehaviour
     private void OnDestroy()
     {
         if (clock != null) clock.SaveRequested -= HandleChanged;
+        if (progress != null) progress.Changed -= HandleChanged;
         if (inventory != null) inventory.Changed -= HandleChanged;
         if (equipment != null) equipment.Changed -= HandleChanged;
         if (ownsProfile && inventory != null) SaveNow();

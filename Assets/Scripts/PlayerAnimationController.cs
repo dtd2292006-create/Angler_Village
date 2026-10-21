@@ -40,11 +40,11 @@ public class PlayerAnimationController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
 
-        if (movement == null || hook == null)
+        if (movement == null)
         {
             Debug.LogError(
                 "PlayerAnimationController: " +
-                "Chua gan Movement hoac Hook.",
+                "Chua gan Movement.",
                 this);
 
             enabled = false;
@@ -61,7 +61,7 @@ public class PlayerAnimationController : MonoBehaviour
         bool shouldReel =
             !IsCatching &&
             animator.GetBool(FishingParameter) &&
-            hook.isActiveAndEnabled &&
+            hook != null && hook.isActiveAndEnabled &&
             hook.IsDeployed &&
             hook.IsReeling;
 

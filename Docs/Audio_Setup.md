@@ -8,6 +8,8 @@ Mixer: `Assets/Audio/GameAudio.mixer`, gồm Master → Music và SFX. AudioSour
 |---|---|---|
 | MenuMusic | MainMenu | Có / Music |
 | LakeMusic | Lake | Có / Music |
+| VillageMusic | Village | Có / Music |
+| VillageAmbience | Không gian làng | Có / SFX |
 | Ambience | Không gian hồ | Có / SFX |
 | Step | Đi bộ | Không / SFX |
 | Cast | Hook được phóng | Không / SFX |

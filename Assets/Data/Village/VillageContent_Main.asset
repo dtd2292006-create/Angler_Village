@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47b1272f2e923eb446df5a8ea2653cd5, type: 3}
+  m_Name: VillageContent_Main
+  m_EditorClassIdentifier: Assembly-CSharp::VillageContent
+  starterLine: {fileID: 11400000, guid: bd4204bdc67722cfadd1be3ef7c63ace, type: 2}
+  starterBait: {fileID: 11400000, guid: a28becfc061925a28a3f2255a6bcce64, type: 2}
+  firstCommission: {fileID: 11400000, guid: 0b80519368d79a9615122ccf83bf8232, type: 2}
+  commissions:
+  - {fileID: 11400000, guid: 1d54a39e90f48c8b553782e80cdbc516, type: 2}
+  equipment:
+  - item: {fileID: 11400000, guid: 4ead1845a2b86142824e20fca6fb0184, type: 2}
+    price: 30
+  - item: {fileID: 11400000, guid: bd4204bdc67722cfadd1be3ef7c63ace, type: 2}
+    price: 0
+  - item: {fileID: 11400000, guid: a28becfc061925a28a3f2255a6bcce64, type: 2}
+    price: 5
+  fish:
+  - fish: {fileID: 11400000, guid: a72ec69d5f16d3c459842d5accc39e5c, type: 2}
+    sellPrice: 8
+  - fish: {fileID: 11400000, guid: b8651dfb5d9a0c048bd32c24b6a2b68d, type: 2}
+    sellPrice: 10
+  - fish: {fileID: 11400000, guid: c9b558307ab0efb41bda35e33b6d7a2f, type: 2}
+    sellPrice: 12

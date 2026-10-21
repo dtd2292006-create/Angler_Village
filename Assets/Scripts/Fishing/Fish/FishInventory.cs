@@ -77,7 +77,7 @@ public sealed class FishInventory
             error = "Invalid or missing save format marker.";
             return false;
         }
-        if (data.schemaVersion != 1 && data.schemaVersion != SchemaVersion)
+        if (data.schemaVersion < 1 || data.schemaVersion > SchemaVersion)
         {
             error = "Unsupported save schema: " + data.schemaVersion;
             return false;

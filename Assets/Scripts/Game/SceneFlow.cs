@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public sealed class SceneFlow : MonoBehaviour
 {
     [SerializeField] private string lakeScene = "Lake";
+    [SerializeField] private string villageScene = "Village";
     [SerializeField] private string menuScene = "MainMenu";
     public bool IsLoading { get; private set; }
     public event Action<string> Failed;
@@ -19,10 +20,18 @@ public sealed class SceneFlow : MonoBehaviour
             return new PlayerSaveFileStore(SavePath).Load(out _, out _) != PlayerSaveLoadStatus.Failed;
         }
     }
-    public void ContinueGame() { if (!IsLoading) StartCoroutine(Load(lakeScene, false)); }
-    public void NewGame() { if (!IsLoading) StartCoroutine(Load(lakeScene, true)); }
+    public void ContinueGame()
+    {
+        if (IsLoading) return;
+        var store = new PlayerSaveFileStore(SavePath);
+        if (store.Load(out _, out var error) == PlayerSaveLoadStatus.Failed) { Failed?.Invoke(error); return; }
+        StartCoroutine(Load(store.LoadedProgress != null ? store.LoadedProgress.currentScene : villageScene, false));
+    }
+    public void TravelToLake() { if (!IsLoading) StartCoroutine(Load(lakeScene, false, "Lake")); }
+    public void TravelToVillage() { if (!IsLoading) StartCoroutine(Load(villageScene, false, "Lake")); }
+    public void NewGame() { if (!IsLoading) StartCoroutine(Load(villageScene, true)); }
     public void ReturnToMenu() { if (!IsLoading) StartCoroutine(Load(menuScene, false)); }
-    private IEnumerator Load(string target, bool fresh)
+    private IEnumerator Load(string target, bool fresh, string arrival = null)
     {
         if (!Application.CanStreamedLevelBeLoaded(target))
         {
@@ -32,8 +41,15 @@ public sealed class SceneFlow : MonoBehaviour
         IsLoading = true;
         // Freeze gameplay while changing profiles and releasing the old persistent PlayerData.
         GamePause.Set(this, true);
+        var progress = PlayerProgress.Current;
+        var previousProgress = progress != null ? progress.Export() : null;
+        if (arrival != null && progress != null) progress.SetDestination(target, arrival);
         bool saved = PlayerInventory.Instance == null || PlayerInventory.Instance.GetComponent<PlayerSaveController>().SaveNow();
-        if (!saved) { Abort("Không lưu được tiến trình. Hãy kiểm tra dung lượng và quyền ghi."); yield break; }
+        if (!saved)
+        {
+            if (progress != null && previousProgress != null) { progress.Initialize(previousProgress); progress.Notify(); }
+            Abort("Không lưu được tiến trình. Hãy kiểm tra dung lượng và quyền ghi."); yield break;
+        }
         if (PlayerInventory.Instance != null)
         {
             Destroy(PlayerInventory.Instance.gameObject);

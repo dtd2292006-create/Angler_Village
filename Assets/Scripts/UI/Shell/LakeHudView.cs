@@ -23,7 +23,7 @@ public sealed class LakeHudView : MonoBehaviour
     {
         foreach (Text text in GetComponentsInChildren<Text>(true)) InventoryUIFont.Ensure(text);
     }
-    private void OnEnable() { catchController.FishLanded += Landed; hook.LineBroken += Broken; }
+    private void OnEnable() { if (catchController != null) catchController.FishLanded += Landed; if (hook != null) hook.LineBroken += Broken; }
     private void Update()
     {
         hudRoot.SetActive(inventoryView == null || !inventoryView.IsOpen);
@@ -42,9 +42,9 @@ public sealed class LakeHudView : MonoBehaviour
                     Name(equipment, FishingEquipmentKind.Bait);
             }
         }
-        chargePanel.SetActive(fishing.IsCasting);
-        charge.SetValueWithoutNotify(fishing.CurrentCharge01);
-        hint.text = qte.IsFailReelLocked ? "Tạm khóa thu dây sau QTE thất bại" :
+        chargePanel.SetActive(fishing != null && fishing.IsCasting);
+        charge.SetValueWithoutNotify(fishing != null ? fishing.CurrentCharge01 : 0);
+        hint.text = hook == null ? "A/D di chuyển · E nói chuyện · I túi đồ · Esc tạm dừng" : qte.IsFailReelLocked ? "Tạm khóa thu dây sau QTE thất bại" :
             qte.IsActive ? "Nhấp chuột khi kim vào vùng trắng hoặc xanh" :
             hook.IsDeployed ? "Giữ chuột trái để thu · Nhả để mồi chìm" :
             !hook.CanLaunch ? "Trang bị đủ cần, dây và mồi để câu." : "A/D di chuyển · Giữ/thả chuột để quăng · I túi đồ · Esc tạm dừng";
@@ -66,5 +66,5 @@ public sealed class LakeHudView : MonoBehaviour
         noticeRemaining = 3;
     }
     private void Broken() { notice.text = "Dây đã đứt — cá thoát!"; noticeRemaining = 3; }
-    private void OnDisable() { catchController.FishLanded -= Landed; hook.LineBroken -= Broken; }
+    private void OnDisable() { if (catchController != null) catchController.FishLanded -= Landed; if (hook != null) hook.LineBroken -= Broken; }
 }

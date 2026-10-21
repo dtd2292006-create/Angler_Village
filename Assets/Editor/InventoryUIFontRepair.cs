@@ -27,7 +27,12 @@ public static class InventoryUIFontRepair
             "Assets/Prefabs/UI/MainMenuUI.prefab",
             "Assets/Prefabs/UI/LakeShellUI.prefab",
             "Assets/Prefabs/UI/FishInventorySlot.prefab",
-            "Assets/Prefabs/UI/EquipmentSlot.prefab" })
+            "Assets/Prefabs/UI/EquipmentSlot.prefab",
+            "Assets/Prefabs/UI/VillageShellUI.prefab",
+            "Assets/Prefabs/UI/JourneyHudUI.prefab",
+            "Assets/Prefabs/UI/VillagePanelUI.prefab",
+            "Assets/Prefabs/UI/JourneyListRow.prefab",
+            "Assets/Prefabs/UI/FishJournalUI.prefab" })
         {
             if (AssetDatabase.LoadAssetAtPath<GameObject>(path) == null) continue;
             GameObject contents = PrefabUtility.LoadPrefabContents(path);
