@@ -12,7 +12,11 @@ namespace AnglerVillage.UI
         [SerializeField] private Text label;
         public string ItemId { get; private set; }
         private Action<string> clicked;
-        private void Awake() => button.onClick.AddListener(Click);
+        private void Awake()
+        {
+            InventoryUIFont.Ensure(label);
+            button.onClick.AddListener(Click);
+        }
         public void Bind(CaughtFishInstance item, FishDefinition definition, Action<string> onClick)
         {
             ItemId = item.InstanceId;

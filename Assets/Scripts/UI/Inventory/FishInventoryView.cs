@@ -28,6 +28,7 @@ namespace AnglerVillage.UI
         private readonly List<FishInventorySlotView> slots = new List<FishInventorySlotView>();
         private void Awake()
         {
+            foreach (Text text in GetComponentsInChildren<Text>(true)) InventoryUIFont.Ensure(text);
             window.SetActive(false);
             openButton.onClick.AddListener(Toggle);
             closeButton.onClick.AddListener(Close);

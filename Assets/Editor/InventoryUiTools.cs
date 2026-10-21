@@ -32,6 +32,7 @@ public static class InventoryUiTools
         }
         try
         {
+            InventoryUIFontRepair.RepairPrefabs();
             var root = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/FishInventoryUI.prefab");
             var cell = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/FishInventorySlot.prefab");
             Require(root != null && cell != null, "Both inventory prefabs must import successfully.");
