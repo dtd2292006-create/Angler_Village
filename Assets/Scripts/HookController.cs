@@ -186,6 +186,16 @@ public class HookController : MonoBehaviour
         if (IsDeployed) pendingBonusReel += Mathf.Max(0f, distance);
     }
 
+    public bool ApplyRodDefinition(FishingEquipmentDefinition definition)
+    {
+        if (definition == null || definition.Kind != FishingEquipmentKind.Rod || IsDeployed) return false;
+        minCastSpeed = definition.MinCastSpeed;
+        maxCastSpeed = definition.MaxCastSpeed;
+        minLineLength = definition.MinLineLength;
+        maxLineLength = definition.MaxLineLength;
+        return true;
+    }
+
     public bool Launch(float power01, bool faceRight)
     {
         if (!IsReady || IsDeployed)

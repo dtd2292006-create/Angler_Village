@@ -20,14 +20,7 @@ public sealed class CaughtFishInstance
 }
 
 // Disk DTOs only; do not expose these as live inventory state.
-[Serializable]
-public sealed class PlayerSaveData
-{
-    public string format;
-    public int schemaVersion;
-    public long lastCatchSequence;
-    public List<CaughtFishSaveEntry> caughtFish;
-}
+
 
 [Serializable]
 public sealed class CaughtFishSaveEntry
@@ -37,3 +30,4 @@ public sealed class CaughtFishSaveEntry
     public long catchSequence;
     public long caughtAtUtcTicks;
 }
+

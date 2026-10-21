@@ -33,7 +33,7 @@ public static class InventoryUiTools
         try
         {
             InventoryUIFontRepair.RepairPrefabs();
-            var root = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/FishInventoryUI.prefab");
+            var root = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/InventoryUI.prefab");
             var cell = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/UI/FishInventorySlot.prefab");
             Require(root != null && cell != null, "Both inventory prefabs must import successfully.");
             var view = root.GetComponent<FishInventoryView>();
@@ -88,3 +88,4 @@ public static class InventoryUiTools
         if (!valid) throw new InvalidOperationException(message);
     }
 }
+

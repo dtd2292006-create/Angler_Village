@@ -5,8 +5,8 @@ using System.Collections.ObjectModel;
 // Pure inventory rules. No Unity objects, scene lookups, JSON or disk writes.
 public sealed class FishInventory
 {
-    public const string SaveFormat = "FishingGame.PlayerData";
-    public const int SchemaVersion = 1;
+    public const string SaveFormat = PlayerSaveSchema.Format;
+    public const int SchemaVersion = PlayerSaveSchema.CurrentVersion;
 
     private readonly List<CaughtFishInstance> fish = new List<CaughtFishInstance>();
     private readonly HashSet<string> instanceIds = new HashSet<string>(StringComparer.Ordinal);
@@ -68,7 +68,7 @@ public sealed class FishInventory
             error = "Invalid or missing save format marker.";
             return false;
         }
-        if (data.schemaVersion != SchemaVersion)
+        if (data.schemaVersion != 1 && data.schemaVersion != SchemaVersion)
         {
             error = "Unsupported save schema: " + data.schemaVersion;
             return false;
@@ -116,3 +116,4 @@ public sealed class FishInventory
         return true;
     }
 }
+

@@ -23,7 +23,9 @@ public static class InventoryUIFontRepair
     {
         foreach (string path in new[] {
             "Assets/Prefabs/UI/FishInventoryUI.prefab",
-            "Assets/Prefabs/UI/FishInventorySlot.prefab" })
+            "Assets/Prefabs/UI/InventoryUI.prefab",
+            "Assets/Prefabs/UI/FishInventorySlot.prefab",
+            "Assets/Prefabs/UI/EquipmentSlot.prefab" })
         {
             if (AssetDatabase.LoadAssetAtPath<GameObject>(path) == null) continue;
             GameObject contents = PrefabUtility.LoadPrefabContents(path);
@@ -42,3 +44,4 @@ public static class InventoryUIFontRepair
         }
     }
 }
+

@@ -5598,6 +5598,7 @@ GameObject:
   - component: {fileID: 614093939}
   - component: {fileID: 614093938}
   - component: {fileID: 614093937}
+  - component: {fileID: 2100000010}
   m_Layer: 0
   m_Name: PlayerData
   m_TagString: Untagged
@@ -6556,6 +6557,7 @@ GameObject:
   - component: {fileID: 1151375152}
   - component: {fileID: 1151375153}
   - component: {fileID: 1151375154}
+  - component: {fileID: 2100000011}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -16055,15 +16057,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1091, guid: 2f3f2ffe06d601e4b4ae0a9d14f6ed01, type: 3}
+    - target: {fileID: 1091, guid: b06578847dedc2678377a4ebf09eade0, type: 3}
       propertyPath: hook
       value: 
       objectReference: {fileID: 1721739905}
-    - target: {fileID: 1091, guid: 2f3f2ffe06d601e4b4ae0a9d14f6ed01, type: 3}
+    - target: {fileID: 1091, guid: b06578847dedc2678377a4ebf09eade0, type: 3}
       propertyPath: fishing
       value: 
       objectReference: {fileID: 1151375154}
-    - target: {fileID: 1091, guid: 2f3f2ffe06d601e4b4ae0a9d14f6ed01, type: 3}
+    - target: {fileID: 1091, guid: b06578847dedc2678377a4ebf09eade0, type: 3}
       propertyPath: animationController
       value: 
       objectReference: {fileID: 163364549}
@@ -16071,12 +16073,43 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2f3f2ffe06d601e4b4ae0a9d14f6ed01, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: b06578847dedc2678377a4ebf09eade0, type: 3}
 --- !u!224 &2100000001 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 1002, guid: 2f3f2ffe06d601e4b4ae0a9d14f6ed01, type: 3}
+  m_CorrespondingSourceObject: {fileID: 1002, guid: b06578847dedc2678377a4ebf09eade0, type: 3}
   m_PrefabInstance: {fileID: 2100000000}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2100000010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614093936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34db9c230393c9521ad10e30bacf0eb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
+  catalog: {fileID: 11400000, guid: 4d28b94933618a12df2ced1179dad744, type: 2}
+--- !u!114 &2100000011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151375145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8ffb5fc7291b1f0e1ef581b65a118b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FishingEquipmentRig
+  hook: {fileID: 1721739905}
+  resistance: {fileID: 1721739912}
+  bait: {fileID: 1721739906}
+  rodRenderer: {fileID: 1220409255}
+  fishing: {fileID: 1151375154}
+  animationController: {fileID: 163364549}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

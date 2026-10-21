@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb09ce0483854e8ebdc720ecc8744c77, type: 3}
+  m_Name: EquipmentCatalog_Main
+  m_EditorClassIdentifier: Assembly-CSharp::FishingEquipmentCatalog
+  items:
+  - {fileID: 11400000, guid: 4ead1845a2b86142824e20fca6fb0184, type: 2}
+  - {fileID: 11400000, guid: bd4204bdc67722cfadd1be3ef7c63ace, type: 2}
+  - {fileID: 11400000, guid: a28becfc061925a28a3f2255a6bcce64, type: 2}
+  startingItems:
+  - definition: {fileID: 11400000, guid: 4ead1845a2b86142824e20fca6fb0184, type: 2}
+    quantity: 1
+    equip: 1
+  - definition: {fileID: 11400000, guid: bd4204bdc67722cfadd1be3ef7c63ace, type: 2}
+    quantity: 1
+    equip: 1
+  - definition: {fileID: 11400000, guid: a28becfc061925a28a3f2255a6bcce64, type: 2}
+    quantity: 1
+    equip: 1

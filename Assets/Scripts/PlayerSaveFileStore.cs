@@ -11,6 +11,7 @@ public sealed class PlayerSaveFileStore
     public string FullPath { get; }
     public string BackupPath => FullPath + ".bak";
     public string TemporaryPath => FullPath + ".tmp";
+    public EquipmentSaveData LoadedEquipment { get; private set; }
 
     public PlayerSaveFileStore(string fullPath)
     {
@@ -23,6 +24,7 @@ public sealed class PlayerSaveFileStore
     {
         inventory = null;
         message = null;
+        LoadedEquipment = null;
         bool primaryExists = File.Exists(FullPath);
         bool backupExists = File.Exists(BackupPath);
         bool tempExists = File.Exists(TemporaryPath);
@@ -75,6 +77,11 @@ public sealed class PlayerSaveFileStore
 
     public bool TrySave(FishInventory inventory, out string error)
     {
+        return TrySave(inventory, LoadedEquipment, out error);
+    }
+
+    public bool TrySave(FishInventory inventory, EquipmentSaveData equipment, out string error)
+    {
         error = null;
         try
         {
@@ -90,7 +97,11 @@ public sealed class PlayerSaveFileStore
             }
 
             Directory.CreateDirectory(Path.GetDirectoryName(FullPath));
-            byte[] bytes = new UTF8Encoding(false).GetBytes(JsonUtility.ToJson(inventory.Export(), true));
+            PlayerSaveData data = inventory.Export();
+            data.equipment = equipment;
+            if (!EquipmentInventory.TryRestore(equipment, out var checkedEquipment, out var equipmentError))
+                throw new InvalidDataException(equipmentError);
+            byte[] bytes = new UTF8Encoding(false).GetBytes(JsonUtility.ToJson(data, true));
             using (FileStream stream = new FileStream(TemporaryPath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 stream.Write(bytes, 0, bytes.Length);
@@ -115,7 +126,7 @@ public sealed class PlayerSaveFileStore
         }
     }
 
-    private static bool TryRead(string path, out FishInventory inventory, out string error, out bool newerSchema)
+    private bool TryRead(string path, out FishInventory inventory, out string error, out bool newerSchema)
     {
         inventory = null;
         error = null;
@@ -124,9 +135,16 @@ public sealed class PlayerSaveFileStore
         {
             string json = File.ReadAllText(path, Encoding.UTF8);
             PlayerSaveData data = JsonUtility.FromJson<PlayerSaveData>(json);
-            newerSchema = data != null && data.format == FishInventory.SaveFormat &&
-                data.schemaVersion > FishInventory.SchemaVersion;
-            return FishInventory.TryRestore(data, out inventory, out error);
+            newerSchema = data != null && data.format == PlayerSaveSchema.Format &&
+                data.schemaVersion > PlayerSaveSchema.CurrentVersion;
+            if (!FishInventory.TryRestore(data, out inventory, out error)) return false;
+            if (!EquipmentInventory.TryRestore(data.equipment, out var checkedEquipment, out error))
+            {
+                inventory = null;
+                return false;
+            }
+            LoadedEquipment = data.equipment;
+            return true;
         }
         catch (Exception exception)
         {
@@ -135,3 +153,4 @@ public sealed class PlayerSaveFileStore
         }
     }
 }
+

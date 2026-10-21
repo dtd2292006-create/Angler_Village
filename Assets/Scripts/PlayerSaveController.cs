@@ -4,6 +4,7 @@ using UnityEngine;
 [DefaultExecutionOrder(-1100)]
 [DisallowMultipleComponent]
 [RequireComponent(typeof(PlayerInventory))]
+[RequireComponent(typeof(PlayerEquipment))]
 public class PlayerSaveController : MonoBehaviour
 {
     [SerializeField, Min(1f)] private float retrySeconds = 5f;
@@ -13,6 +14,7 @@ public class PlayerSaveController : MonoBehaviour
     [SerializeField] private string lastSaveError;
 
     private PlayerInventory inventory;
+    private PlayerEquipment equipment;
     private PlayerSaveFileStore store;
     private float nextRetry;
     private bool ownsProfile;
@@ -37,11 +39,29 @@ public class PlayerSaveController : MonoBehaviour
             enabled = false;
             return;
         }
+        equipment = GetComponent<PlayerEquipment>();
+        bool needsEquipmentSeed = store.LoadedEquipment == null;
+        if (!EquipmentInventory.TryRestore(store.LoadedEquipment, out var equipmentState, out var equipmentError))
+        {
+            lastSaveError = equipmentError;
+            Debug.LogError(equipmentError, this);
+            enabled = false;
+            return;
+        }
+        try { equipment.Initialize(equipmentState, needsEquipmentSeed); }
+        catch (System.Exception error)
+        {
+            lastSaveError = error.Message;
+            Debug.LogException(error, this);
+            enabled = false;
+            return;
+        }
         inventory.Initialize(loaded);
         ownsProfile = true;
         inventory.Changed += HandleChanged;
+        equipment.Changed += HandleChanged;
         if (!string.IsNullOrEmpty(message)) Debug.LogWarning(message, this);
-        dirty = result != PlayerSaveLoadStatus.Loaded;
+        dirty = result != PlayerSaveLoadStatus.Loaded || needsEquipmentSeed;
         if (dirty) SaveNow();
         Debug.Log("Player data ready. Fish=" + inventory.FishCount + "\nSave: " + savePath, this);
     }
@@ -57,7 +77,7 @@ public class PlayerSaveController : MonoBehaviour
         if (!ownsProfile || !inventory.IsReady) return false;
         if (!dirty) return true;
         string error;
-        if (store.TrySave(inventory.State, out error))
+        if (store.TrySave(inventory.State, equipment.State.Export(), out error))
         {
             dirty = false;
             lastSaveError = null;
@@ -86,6 +106,8 @@ public class PlayerSaveController : MonoBehaviour
     private void OnDestroy()
     {
         if (inventory != null) inventory.Changed -= HandleChanged;
+        if (equipment != null) equipment.Changed -= HandleChanged;
         if (dirty && ownsProfile && inventory != null) SaveNow();
     }
 }
+

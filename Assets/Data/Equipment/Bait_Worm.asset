@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ea5e3b022aef0604feef808b05c098, type: 3}
+  m_Name: Bait_Worm
+  m_EditorClassIdentifier: Assembly-CSharp::FishingEquipmentDefinition
+  itemId: bait.worm
+  displayName: Mồi giun
+  kind: 2
+  icon: {fileID: -4528024655707521767, guid: 6db3ee9b3c7d4fd459e9e774934866a6, type: 3}
+  description: Mồi giun dành cho các loài cá thích giun.
+  line: {fileID: 0}
+  bait: {fileID: 11400000, guid: 2db2122b7c019274ebe29fbe7b95917b, type: 2}
+  rodSprite: {fileID: 0}
+  minCastSpeed: 3
+  maxCastSpeed: 7
+  minLineLength: 2
+  maxLineLength: 7

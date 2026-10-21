@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34ea5e3b022aef0604feef808b05c098, type: 3}
+  m_Name: Line_Basic
+  m_EditorClassIdentifier: Assembly-CSharp::FishingEquipmentDefinition
+  itemId: line.basic
+  displayName: Dây cước cơ bản
+  kind: 1
+  icon: {fileID: -4362661697745530836, guid: 8b9c4305c3be76d42951fd763d10bd10, type: 3}
+  description: Dây câu khởi đầu.
+  line: {fileID: 11400000, guid: a0b9a1a39865f1a40b44a53224e55878, type: 2}
+  bait: {fileID: 0}
+  rodSprite: {fileID: 0}
+  minCastSpeed: 3
+  maxCastSpeed: 7
+  minLineLength: 2
+  maxLineLength: 7
