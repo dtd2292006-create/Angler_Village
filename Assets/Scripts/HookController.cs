@@ -85,8 +85,10 @@ public class HookController : MonoBehaviour
         waterArea.enabled &&
         waterArea.gameObject.activeInHierarchy;
 
-    public bool IsRigVisible => rigVisible && isActiveAndEnabled;
-    public bool HasBait => !baitConsumed;
+    private bool equipmentReady = true;
+    public bool CanLaunch => IsReady && equipmentReady && !IsDeployed;
+    public bool IsRigVisible => rigVisible && equipmentReady && isActiveAndEnabled;
+    public bool HasBait => equipmentReady && !baitConsumed;
     public bool CanFishBite => IsReady && IsDeployed && IsUnderwater && HasBait;
 
     public HookLoadSample CurrentLoad => currentLoad;
@@ -138,6 +140,13 @@ public class HookController : MonoBehaviour
         }
 
         ReturnToRest();
+    }
+
+    public void SetEquipmentReady(bool ready)
+    {
+        if (IsDeployed) return;
+        equipmentReady = ready;
+        UpdateBaitVisibility();
     }
 
     public void SetVisible(bool visible)
@@ -198,7 +207,7 @@ public class HookController : MonoBehaviour
 
     public bool Launch(float power01, bool faceRight)
     {
-        if (!IsReady || IsDeployed)
+        if (!IsReady || !equipmentReady || IsDeployed)
             return false;
 
         Vector2 origin = rodTip.position;
@@ -469,3 +478,4 @@ public class HookController : MonoBehaviour
         SetVisible(false);
     }
 }
+

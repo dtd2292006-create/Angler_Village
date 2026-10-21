@@ -30,6 +30,8 @@ public sealed class FishingEquipmentRig : MonoBehaviour
         rod = equipment.Equipped(FishingEquipmentKind.Rod);
         var line = equipment.Equipped(FishingEquipmentKind.Line);
         var lure = equipment.Equipped(FishingEquipmentKind.Bait);
+        hook.SetEquipmentReady(rod != null && line != null && lure != null);
+        if (rodRenderer != null) rodRenderer.enabled = rod != null;
         if (rod != null) hook.ApplyRodDefinition(rod);
         if (line != null && resistance != null) resistance.SetLineDefinition(line.Line);
         if (lure != null && bait != null) bait.SetDefinition(lure.Bait);
@@ -42,3 +44,4 @@ public sealed class FishingEquipmentRig : MonoBehaviour
         equipment.UnregisterRig(this);
     }
 }
+

@@ -80,6 +80,14 @@ public class PlayerInventory : MonoBehaviour
         return true;
     }
 
+    public bool TryRemoveFish(string instanceId)
+    {
+        if (!IsPrimary || !IsReady || !state.Remove(instanceId)) return false;
+        UpdateDebug();
+        Changed?.Invoke();
+        return true;
+    }
+
     public bool TryGetDefinition(CaughtFishInstance item, out FishDefinition definition)
     {
         definition = null;
@@ -112,3 +120,4 @@ public class PlayerInventory : MonoBehaviour
         if (Instance == this) Instance = null;
     }
 }
+

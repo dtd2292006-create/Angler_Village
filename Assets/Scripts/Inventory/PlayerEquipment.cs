@@ -49,6 +49,16 @@ public sealed class PlayerEquipment : MonoBehaviour
         Changed?.Invoke();
         return true;
     }
+    public bool TryRemove(string id, int quantity, out string message)
+    {
+        message = null;
+        if (!IsReady || (rig != null && !rig.CanChange))
+        { message = "Hãy thu mồi và kết thúc động tác trước."; return false; }
+        if (!state.Remove(id, quantity)) { message = "Không đủ vật phẩm."; return false; }
+        Changed?.Invoke();
+        return true;
+    }
+
     public bool TryEquip(string id, out string message)
     {
         message = null;
@@ -62,3 +72,4 @@ public sealed class PlayerEquipment : MonoBehaviour
         return true;
     }
 }
+

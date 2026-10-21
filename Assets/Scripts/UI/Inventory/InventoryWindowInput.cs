@@ -10,7 +10,7 @@ namespace AnglerVillage.UI
         [SerializeField] private FishInventoryView view;
         private void Update()
         {
-            if (!Application.isFocused || Time.timeScale <= 0) return;
+            if (!Application.isFocused || (Time.timeScale <= 0 && !view.IsOpen)) return;
 #if ENABLE_INPUT_SYSTEM
             var keyboard = Keyboard.current;
             if (keyboard == null) return;
@@ -27,3 +27,4 @@ namespace AnglerVillage.UI
         }
     }
 }
+

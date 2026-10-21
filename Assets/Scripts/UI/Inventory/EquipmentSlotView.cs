@@ -15,6 +15,7 @@ namespace AnglerVillage.UI
         private void Awake()
         {
             InventoryUIFont.Ensure(label);
+            UIButtonAudio.Ensure(button.gameObject);
             button.onClick.AddListener(Click);
         }
         public void Bind(OwnedFishingItem owned, FishingEquipmentDefinition definition, bool equipped, Action<string> callback)
@@ -33,3 +34,4 @@ namespace AnglerVillage.UI
         private void OnDestroy() { if (button != null) button.onClick.RemoveListener(Click); }
     }
 }
+

@@ -13,8 +13,11 @@ public sealed class PlayerSaveData
     public string format;
     public int schemaVersion;
     // Inline Unity serialization cannot use null as the sole initialization marker.
+    public bool worldTimeInitialized;
+    public double worldMinutes;
     public bool equipmentInitialized;
     public EquipmentSaveData equipment;
     public long lastCatchSequence;
     public List<CaughtFishSaveEntry> caughtFish;
 }
+

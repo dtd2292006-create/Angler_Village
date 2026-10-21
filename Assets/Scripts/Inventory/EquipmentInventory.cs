@@ -47,6 +47,19 @@ public sealed class EquipmentInventory
         }
         else items.Add(new OwnedFishingItem(id, kind, quantity));
     }
+    public bool Remove(string id, int quantity)
+    {
+        var item = Find(id);
+        if (item == null || quantity <= 0 || item.Quantity < quantity) return false;
+        item.Quantity -= quantity;
+        if (item.Quantity == 0)
+        {
+            if (equipped[(int)item.Kind] == id) equipped[(int)item.Kind] = null;
+            items.Remove(item);
+        }
+        return true;
+    }
+
     public bool Equip(string id)
     {
         var item = Find(id);
@@ -87,3 +100,4 @@ public sealed class EquipmentInventory
         return true;
     }
 }
+

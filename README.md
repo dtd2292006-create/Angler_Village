@@ -1,23 +1,22 @@
-Unity: 6000.3.7f1, Universal 2D, PC.
-Đường dẫn scene chính cần mở : "D:\GAME_DEV\FIshing - Copy\Angler_Village\Assets\_Recovery\Test.unity" Đây là scene test cho khu vực câu hiện tại, nếu thích có thể biến nó thành scene TheVillageLake, scene làng là Village, scene main menu là Main Menu.
-Phím điều khiển hiện tại: 
-"A/D: Di chuyển.
-Giữ chuột trái: Lấy đà quăng cần.
-Thả chuột trái: Quăng mồi.
-Giữ chuột trái khi mồi ở dưới nước: Thu dây.
-Nhấp chuột trái khi xuất hiện QTE: Thực hiện QTE."
-Scene đang sử dụng: Assets/_Recovery/Test.unity
-Scene dự kiến tạo sau: Village, Main Menu.
-Những tính năng đang hoạt động và lỗi đã biết : 
-"
-Đã hoạt động:
-- Di chuyển và animation nhân vật.
-- Tự vào trạng thái Prepare tại Fishing Spot.
-- Quăng mồi, chìm mồi và thu dây.
-- Cá tiếp cận, ăn mồi và được câu lên.
-- QTE, thanh kháng cự và đứt dây.(Chưa có về mặt hình ảnh, có thể đã có về mặt scripts)
-- Cá câu được lưu vào inventory.(Chưa có về mặt hình ảnh, có thể đã có về mặt scripts)
-"
-Thư mục chứa art/UI mới-Hiện chưa lưu các art UI được tạo ra. Các art còn lại ở trong D:\GAME_DEV\FIshing - Copy\Angler_Village\Assets\Art và chia theo vai trò, có thể không chuẩn; link Figma :https://www.figma.com/design/HkksYQAnBBVOy5em7s2tE4/C%E1%BA%A7n-th%E1%BB%A7-l%C3%A0ng-qu%C3%AA-%E2%80%94-V%E1%BA%BD-l%E1%BA%A1i-t%E1%BB%AB-%C4%91%E1%BA%A7u?node-id=115-2965&t=mkF4MEDgJVIDLvVT-1.
-Quy tắc làm việc: chia script theo nhiệm vụ, giữ Animator transitions, để bạn chỉnh bố cục UI trong Inspector.
-Nếu thiếu, thắc mắc hoặc có suy nghĩ gì hãy ngay lập tức dừng chạy và nói cho tôi biết. 
+# Angler Village
+
+Unity **6000.3.7f1**, Universal 2D, PC. Game câu cá pixel.
+
+## Mở dự án
+
+- Scene vào game: `Assets/Scenes/MainMenu.unity`.
+- Scene hồ: `Assets/Scenes/Lake.unity`.
+- Bản scene gốc giữ nguyên: `Assets/_Recovery/Test.unity`.
+- Village sẽ được dựng riêng sau khi có map và NPC.
+
+A/D di chuyển; giữ/thả chuột trái lấy đà và quăng cần; giữ chuột trái thu dây; nhấp chuột trái thực hiện QTE; I mở túi; Esc mở pause hoặc đóng lớp cửa sổ trên cùng.
+
+Hiện có hệ thống câu, cá, kháng cự, QTE, đứt dây, Catch, inventory cá/trang bị/mồi và lưu hồ sơ. Đợt bổ sung Lake/MainMenu thêm HUD, pause, settings, đồng hồ/ngày đêm, hồi sinh cá và khung audio chưa gắn clip. Chưa chạy Unity/Play/build cho đợt bổ sung này. Chưa có kinh tế Village, shop/guild/ủy thác, tiêu hao mồi hoặc trừ kho dây.
+
+## Hướng dẫn chỉnh nội dung
+
+- [Lake, Main Menu và phạm vi](Docs/Lake_MainMenu.md)
+- [Thêm/bớt cá, cần, dây, mồi](Docs/Inventory_Content.md)
+- [Gắn clip và mixer](Docs/Audio_Setup.md)
+
+Giữ script theo nhiệm vụ, giữ Animator transitions và cho phép chỉnh bố cục UI trong Inspector. Dữ liệu nội dung dùng ID ổn định; không đổi ID hoặc xóa meta của món đã lưu trong hồ sơ.

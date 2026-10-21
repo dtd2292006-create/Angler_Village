@@ -24,6 +24,8 @@ public static class InventoryUIFontRepair
         foreach (string path in new[] {
             "Assets/Prefabs/UI/FishInventoryUI.prefab",
             "Assets/Prefabs/UI/InventoryUI.prefab",
+            "Assets/Prefabs/UI/MainMenuUI.prefab",
+            "Assets/Prefabs/UI/LakeShellUI.prefab",
             "Assets/Prefabs/UI/FishInventorySlot.prefab",
             "Assets/Prefabs/UI/EquipmentSlot.prefab" })
         {
@@ -44,4 +46,5 @@ public static class InventoryUIFontRepair
         }
     }
 }
+
 

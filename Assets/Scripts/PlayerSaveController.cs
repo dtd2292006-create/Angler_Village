@@ -15,6 +15,8 @@ public class PlayerSaveController : MonoBehaviour
 
     private PlayerInventory inventory;
     private PlayerEquipment equipment;
+    private PlayerWorldClock clock;
+    private double lastSavedMinutes;
     private PlayerSaveFileStore store;
     private float nextRetry;
     private bool ownsProfile;
@@ -56,6 +58,11 @@ public class PlayerSaveController : MonoBehaviour
             enabled = false;
             return;
         }
+        clock = GetComponent<PlayerWorldClock>();
+        if (clock == null) clock = gameObject.AddComponent<PlayerWorldClock>();
+        clock.Initialize(store.LoadedWorldMinutes);
+        lastSavedMinutes = clock.ElapsedMinutes;
+        clock.SaveRequested += HandleChanged;
         inventory.Initialize(loaded);
         ownsProfile = true;
         inventory.Changed += HandleChanged;
@@ -75,10 +82,12 @@ public class PlayerSaveController : MonoBehaviour
     public bool SaveNow()
     {
         if (!ownsProfile || !inventory.IsReady) return false;
+        if (clock != null && clock.ElapsedMinutes != lastSavedMinutes) dirty = true;
         if (!dirty) return true;
         string error;
-        if (store.TrySave(inventory.State, equipment.State.Export(), out error))
+        if (store.TrySave(inventory.State, equipment.State.Export(), clock.ElapsedMinutes, out error))
         {
+            lastSavedMinutes = clock.ElapsedMinutes;
             dirty = false;
             lastSaveError = null;
             return true;
@@ -100,14 +109,16 @@ public class PlayerSaveController : MonoBehaviour
         Debug.Log(Path.Combine(Application.persistentDataPath, "Saves", "slot_01", "player.json"), this);
     }
 
-    private void OnApplicationPause(bool paused) { if (paused && dirty) SaveNow(); }
-    private void OnApplicationQuit() { if (dirty) SaveNow(); }
+    private void OnApplicationPause(bool paused) { if (paused && ownsProfile) SaveNow(); }
+    private void OnApplicationQuit() { if (ownsProfile) SaveNow(); }
 
     private void OnDestroy()
     {
+        if (clock != null) clock.SaveRequested -= HandleChanged;
         if (inventory != null) inventory.Changed -= HandleChanged;
         if (equipment != null) equipment.Changed -= HandleChanged;
-        if (dirty && ownsProfile && inventory != null) SaveNow();
+        if (ownsProfile && inventory != null) SaveNow();
     }
 }
+
 

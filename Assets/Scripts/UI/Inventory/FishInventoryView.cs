@@ -29,6 +29,7 @@ namespace AnglerVillage.UI
         private void Awake()
         {
             foreach (Text text in GetComponentsInChildren<Text>(true)) InventoryUIFont.Ensure(text);
+            foreach (Button button in GetComponentsInChildren<Button>(true)) UIButtonAudio.Ensure(button.gameObject);
             window.SetActive(false);
             openButton.onClick.AddListener(Toggle);
             closeButton.onClick.AddListener(Close);
@@ -39,7 +40,7 @@ namespace AnglerVillage.UI
         }
         public void Open()
         {
-            if (IsOpen || Time.timeScale <= 0 ||
+            if (IsOpen || GameInputBlock.IsBlocked || Time.timeScale <= 0 ||
                 (hook != null && hook.IsDeployed) ||
                 (fishing != null && fishing.IsCasting) ||
                 (animationController != null && animationController.IsCatching)) return;
@@ -51,13 +52,17 @@ namespace AnglerVillage.UI
             }
             inventory.Changed += Refresh;
             GameInputBlock.Set(this, true);
+            GamePause.Set(this, true);
             window.SetActive(true);
+            GameAudio.Instance?.Play(AudioCue.UiOpen);
             Refresh();
         }
         public void Close()
         {
+            if (IsOpen) GameAudio.Instance?.Play(AudioCue.UiClose);
             if (inventory != null) inventory.Changed -= Refresh;
             GameInputBlock.Set(this, false);
+            GamePause.Set(this, false);
             if (window != null) window.SetActive(false);
         }
         private void Refresh()
@@ -108,3 +113,4 @@ namespace AnglerVillage.UI
         }
     }
 }
+

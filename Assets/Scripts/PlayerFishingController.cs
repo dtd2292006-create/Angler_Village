@@ -99,7 +99,7 @@ public class PlayerFishingController : MonoBehaviour
         switch (phase)
         {
             case CastPhase.Ready:
-                if (!animationController.IsCatching &&
+                if (hook.CanLaunch && !animationController.IsCatching &&
                     Time.frameCount > finishedFrame + 1 && input.CastPressed)
                     BeginCast();
                 break;
@@ -225,3 +225,4 @@ public class PlayerFishingController : MonoBehaviour
         finishedFrame = Time.frameCount;
     }
 }
+

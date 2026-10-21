@@ -39,6 +39,15 @@ public sealed class FishInventory
         return true;
     }
 
+    public bool Remove(string instanceId)
+    {
+        int index = fish.FindIndex(item => item.InstanceId == instanceId);
+        if (index < 0) return false;
+        instanceIds.Remove(fish[index].InstanceId);
+        fish.RemoveAt(index);
+        return true; // CatchSequence never goes backwards.
+    }
+
     public PlayerSaveData Export()
     {
         PlayerSaveData data = new PlayerSaveData
@@ -116,4 +125,5 @@ public sealed class FishInventory
         return true;
     }
 }
+
 
