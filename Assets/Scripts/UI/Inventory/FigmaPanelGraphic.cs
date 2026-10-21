@@ -24,7 +24,7 @@ namespace AnglerVillage.UI
             Rect r = GetPixelAdjustedRect();
             float w = r.width, h = r.height;
             if (w < 12 || h < 12) return;
-            Color edge = selected ? new Color32(212, 179, 123, 255) : border;
+            Color edge = selected ? (Color)new Color32(212, 179, 123, 255) : border;
             Quad(vh, r, 6, 6, w - 12, h - 12, color);
             Quad(vh, r, 6, 0, w - 12, 3, edge);
             Quad(vh, r, 6, h - 3, w - 12, 3, edge);
