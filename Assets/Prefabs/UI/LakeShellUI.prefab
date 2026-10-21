@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneFlow
   lakeScene: Lake
+  villageScene: Village
   menuScene: MainMenu
 --- !u!114 &1350
 MonoBehaviour:
@@ -150,10 +151,10 @@ MonoBehaviour:
   closeHelp: {fileID: 1151}
   menu: {fileID: 1111}
   quit: {fileID: 1121}
+  village: {fileID: 31005}
   confirm: {fileID: 1333}
   cancel: {fileID: 1343}
   settingsView: {fileID: 1316}
-  village: {fileID: 31005}
 --- !u!114 &1351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7299,6 +7300,7 @@ RectTransform:
   m_Children:
   - {fileID: 31007}
   m_Father: {fileID: 1070}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 70, y: -396}
@@ -7325,13 +7327,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnglerVillage.UI.FigmaPanelGraphic
   m_Material: {fileID: 0}
-  m_Color: {r: 0.47058824, g: 0.50980392, b: 0.41568627, a: 1}
+  m_Color: {r: 0.47058824, g: 0.5098039, b: 0.41568628, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
+  border: {r: 0.1882353, g: 0.16078432, b: 0.13725491, a: 1}
+  light: {r: 0.91764706, g: 0.827451, b: 0.6313726, a: 1}
+  shade: {r: 0.16078432, g: 0.22745098, b: 0.1882353, a: 1}
   selected: 0
 --- !u!114 &31005
 MonoBehaviour:
@@ -7361,6 +7366,17 @@ MonoBehaviour:
     m_DisabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.08
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 31004}
   m_OnClick:
@@ -7409,6 +7425,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 31002}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -7435,7 +7452,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Text
   m_Material: {fileID: 0}
-  m_Color: {r: 0.97254902, g: 0.93725490, b: 0.84313725, a: 1}
+  m_Color: {r: 0.972549, g: 0.9372549, b: 0.84313726, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7443,7 +7460,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 26
     m_FontStyle: 0
     m_BestFit: 0
@@ -7455,4 +7472,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.15
-  m_Text: "Về làng"
+  m_Text: "V\u1EC1 l\xE0ng"
