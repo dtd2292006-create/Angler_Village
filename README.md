@@ -6,7 +6,8 @@ Giữ chuột trái: Lấy đà quăng cần.
 Thả chuột trái: Quăng mồi.
 Giữ chuột trái khi mồi ở dưới nước: Thu dây.
 Nhấp chuột trái khi xuất hiện QTE: Thực hiện QTE."
-
+Scene đang sử dụng: Assets/_Recovery/Test.unity
+Scene dự kiến tạo sau: Village, Main Menu.
 Những tính năng đang hoạt động và lỗi đã biết : 
 "
 Đã hoạt động:
