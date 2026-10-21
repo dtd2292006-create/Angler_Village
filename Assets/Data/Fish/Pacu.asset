@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ffea9facc7be1643afff3d6317a8f7e, type: 3}
+  m_Name: Pacu
+  m_EditorClassIdentifier: Assembly-CSharp::FishDefinition
+  displayName: Pacu
+  speciesId: a72ec69d5f16d3c459842d5accc39e5c
+  sprite: {fileID: -5597157309170943997, guid: 8e0b1a0a24c10a94b897b2ed8d3d3881, type: 3}
+  spriteFacesRight: 1
+  preferredBaits: []
+  minDepth: 2
+  maxDepth: 3
+  swimStyle: 0
+  swimSpeed: 0.5
+  swimDurationRange: {x: 2, y: 4}
+  acceleration: 0.3
+  deceleration: 0.9
+  turnPause: 0.15
+  restDurationRange: {x: 0.5, y: 1.5}
+  waveAmplitude: 0.15
+  waveFrequency: 0.4
+  struggleResistance: 3
+  recoveryResistance: 0.2
+  struggleDurationRange: {x: 0.8, y: 1.4}
+  recoveryDurationRange: {x: 0.8, y: 1.5}
+  struggleAcceleration: 0.8
+  linePullStrength: 4
+  recoveryPullMultiplier: 0.6
+  strugglePullMultiplier: 1.6
+  initialFightResistance: 100
+  resistanceDropPerUnit: 8
+  distanceResistanceExponent: 1
+  idleResistanceGainPerSecond: 20
+  goodResistanceDrop: 8
+  greatResistanceDrop: 20
+  failResistanceGain: 20
+  goodBonusReel: 0.15
+  greatBonusReel: 0.65
+  qteGoodWidth: 0.2
+  qteGreatWidth: 0.06
+  qteSweepSeconds: 1.8
+  mediumQteInterval: {x: 2.5, y: 4}
+  redQteInterval: {x: 1, y: 1.8}

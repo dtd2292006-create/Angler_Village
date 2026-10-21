@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ffea9facc7be1643afff3d6317a8f7e, type: 3}
+  m_Name: Pleco
+  m_EditorClassIdentifier: Assembly-CSharp::FishDefinition
+  displayName: Pleco
+  speciesId: c9b558307ab0efb41bda35e33b6d7a2f
+  sprite: {fileID: -304305963427523172, guid: 36042a7ac9c162041987c4f0dd8642a8, type: 3}
+  spriteFacesRight: 1
+  preferredBaits:
+  - {fileID: 11400000, guid: 2db2122b7c019274ebe29fbe7b95917b, type: 2}
+  minDepth: 1
+  maxDepth: 1.5
+  swimStyle: 1
+  swimSpeed: 0.5
+  swimDurationRange: {x: 2, y: 4}
+  acceleration: 0.5
+  deceleration: 1
+  turnPause: 0.2
+  restDurationRange: {x: 0.5, y: 1.5}
+  waveAmplitude: 0.15
+  waveFrequency: 0.4
+  struggleResistance: 2
+  recoveryResistance: 0.1
+  struggleDurationRange: {x: 0.8, y: 1.4}
+  recoveryDurationRange: {x: 0.8, y: 1.5}
+  struggleAcceleration: 0.8
+  linePullStrength: 2
+  recoveryPullMultiplier: 0.6
+  strugglePullMultiplier: 1.6
+  initialFightResistance: 80
+  resistanceDropPerUnit: 8
+  distanceResistanceExponent: 1
+  idleResistanceGainPerSecond: 10
+  goodResistanceDrop: 12
+  greatResistanceDrop: 28
+  failResistanceGain: 18
+  goodBonusReel: 0.15
+  greatBonusReel: 0.65
+  qteGoodWidth: 0.2
+  qteGreatWidth: 0.06
+  qteSweepSeconds: 1.8
+  mediumQteInterval: {x: 2.5, y: 4}
+  redQteInterval: {x: 1, y: 1.8}

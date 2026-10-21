@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ffea9facc7be1643afff3d6317a8f7e, type: 3}
+  m_Name: Sanse
+  m_EditorClassIdentifier: Assembly-CSharp::FishDefinition
+  displayName: sanse
+  speciesId: b8651dfb5d9a0c048bd32c24b6a2b68d
+  sprite: {fileID: -5737140187415626361, guid: 61abdb1f1d2d4a34c86a67886f9e727d, type: 3}
+  spriteFacesRight: 1
+  preferredBaits:
+  - {fileID: 11400000, guid: 2db2122b7c019274ebe29fbe7b95917b, type: 2}
+  minDepth: 0.3
+  maxDepth: 1
+  swimStyle: 0
+  swimSpeed: 0.8
+  swimDurationRange: {x: 2, y: 4}
+  acceleration: 1
+  deceleration: 1.5
+  turnPause: 0.3
+  restDurationRange: {x: 0.5, y: 1.5}
+  waveAmplitude: 0.15
+  waveFrequency: 0.4
+  struggleResistance: 0.5
+  recoveryResistance: 0.1
+  struggleDurationRange: {x: 0.8, y: 1.4}
+  recoveryDurationRange: {x: 0.8, y: 1.5}
+  struggleAcceleration: 0.8
+  linePullStrength: 0.5
+  recoveryPullMultiplier: 0.6
+  strugglePullMultiplier: 1.6
+  initialFightResistance: 60
+  resistanceDropPerUnit: 10
+  distanceResistanceExponent: 1
+  idleResistanceGainPerSecond: 8
+  goodResistanceDrop: 20
+  greatResistanceDrop: 28
+  failResistanceGain: 40
+  goodBonusReel: 0.3
+  greatBonusReel: 1.3
+  qteGoodWidth: 0.2
+  qteGreatWidth: 0.06
+  qteSweepSeconds: 1.8
+  mediumQteInterval: {x: 2.5, y: 4}
+  redQteInterval: {x: 1, y: 1.8}
