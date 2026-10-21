@@ -20,13 +20,10 @@ public sealed class LakePauseView : MonoBehaviour
     [SerializeField] private Button closeHelp;
     [SerializeField] private Button menu;
     [SerializeField] private Button quit;
-    [SerializeField] private Button village;
-    [SerializeField] private Button quickVillage;
     [SerializeField] private Button confirm;
     [SerializeField] private Button cancel;
     [SerializeField] private SettingsView settingsView;
     private bool quitting;
-    private bool returningVillage;
     private void Awake()
     {
         foreach (var text in GetComponentsInChildren<Text>(true)) InventoryUIFont.Ensure(text);
@@ -38,8 +35,6 @@ public sealed class LakePauseView : MonoBehaviour
         closeHelp.onClick.AddListener(CloseHelp);
         menu.onClick.AddListener(Menu);
         quit.onClick.AddListener(Quit);
-        if (village != null) village.onClick.AddListener(ReturnVillage);
-        if (quickVillage != null) quickVillage.onClick.AddListener(RequestVillageReturn);
         confirm.onClick.AddListener(Confirm);
         cancel.onClick.AddListener(Cancel);
         flow.Failed += Failed;
@@ -74,11 +69,9 @@ public sealed class LakePauseView : MonoBehaviour
     }
     private void Help() => helpPanel.SetActive(true);
     private void CloseHelp() => helpPanel.SetActive(false);
-    private void Menu() { quitting = false; returningVillage = false; confirmationText.text = "Lưu tiến trình và về màn hình chính? Lượt câu đang diễn ra sẽ kết thúc."; confirmation.SetActive(true); }
-    private void Quit() { quitting = true; returningVillage = false; confirmationText.text = "Lưu tiến trình và thoát game?"; confirmation.SetActive(true); }
-    private void RequestVillageReturn() { if (flow.IsLoading) return; Open(); ReturnVillage(); }
-    private void ReturnVillage() { quitting = false; returningVillage = true; confirmationText.text = "Thu dọn lượt câu và trở về làng? Cá đã cất trong túi được giữ nguyên."; confirmation.SetActive(true); }
-    private void Confirm() { confirmation.SetActive(false); if (quitting) flow.Quit(); else if (returningVillage) flow.TravelToVillage(); else flow.ReturnToMenu(); }
+    private void Menu() { quitting = false; confirmationText.text = "Lưu tiến trình và về màn hình chính? Lượt câu đang diễn ra sẽ kết thúc."; confirmation.SetActive(true); }
+    private void Quit() { quitting = true; confirmationText.text = "Lưu tiến trình và thoát game?"; confirmation.SetActive(true); }
+    private void Confirm() { confirmation.SetActive(false); if (quitting) flow.Quit(); else flow.ReturnToMenu(); }
     private void Cancel() => confirmation.SetActive(false);
     private void Failed(string message) => status.text = message;
     private void OnApplicationFocus(bool focused) { if (!focused && Time.timeScale > 0 && !pausePanel.activeSelf && !flow.IsLoading) Open(); }

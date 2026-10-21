@@ -15,7 +15,7 @@ Thiết kế tại khung tham chiếu 1920×1080, kiểm tra cả khi thu xuốn
 | Tab | Normal, Hover, Selected, Disabled; Selected phải khác Hover rõ ràng | 192×60 |
 | Ô vật phẩm | Nền ô, viền Hover/Selected, dấu Equipped, khóa, số lượng đặt riêng | 96×96 |
 | Thanh | Track, Fill, Thumb; XP, lực quăng, kháng cự, âm lượng. Hai đầu/cap tách nếu cần | Track 240×24; thumb 24×36 |
-| Icon chức năng | Túi, sổ cá, ủy thác, cửa hàng, cài đặt, đóng, quay lại/về làng, xu, XP/cấp, đồng hồ | 48×48 hoặc 96×96 |
+| Icon chức năng | Túi, sổ cá, ủy thác, cửa hàng, cài đặt, đóng, quay lại, xu, XP/cấp, đồng hồ | 48×48 hoặc 96×96 |
 | Trạng thái | Dấu tick, khóa, mới khám phá, thành công, cảnh báo, thất bại | 48×48 |
 | Công tắc | On/Off; nhạc, hiệu ứng và trạng thái mute riêng | 72×36; icon 48×48 |
 
@@ -25,7 +25,7 @@ Kích thước trên là gợi ý cho asset nguồn, không phải toàn bộ k�
 
 | Màn hình | Cần vẽ mới | Nội dung dùng lại / do code quản lý |
 |---|---|---|
-| HUD Lake/Village | Các bảng nhỏ cho giờ/ngày, xu, cấp/XP; thẻ mục tiêu; nút về làng; nền nhãn phím | Chữ giờ, tiền, cấp, mục tiêu và fill thanh |
+| HUD Lake/Village | Các bảng nhỏ cho giờ/ngày, xu, cấp/XP; thẻ mục tiêu; nền nhãn phím | Chữ giờ, tiền, cấp, mục tiêu và fill thanh |
 | Kết quả câu | Khung thẻ thành công, đứt dây/cá thoát, thu mồi chưa có cá; vùng icon cá rõ; icon cảnh báo | Tên/hình loài cá và kết quả được thay động. Không vẽ tên vào ảnh |
 | Khám phá mới | Banner riêng nhẹ, huy hiệu NEW và hiệu ứng điểm sáng nhỏ | Tên loài mới và sprite cá có sẵn |
 | Inventory | Khung túi đồ, 3 tab cá/trang bị/mồi, bảng chi tiết, nút trang bị, dấu đang dùng | Sprite cá/cần/dây/mồi hiện có; số lượng và thông tin động |
@@ -58,4 +58,4 @@ Kháng cự giữ hướng xanh → vàng → đỏ; fill và khung tách. Khôn
 
 ## Bố cục cần giữ rõ
 
-Trái trên: giờ/ngày và thông tin người chơi; cấp/XP có vùng riêng bên dưới. Phải trên: túi/menu, mục tiêu và nút sổ cá không chồng nhau. Trung tâm ưu tiên nhìn cá/QTE; thẻ kết quả nằm cao hơn tâm và banner khám phá ở vùng riêng. Dưới màn hình dành cho lời nhắc thao tác/lực quăng. Luôn có đường về làng dễ nhận ra tại Lake.
+Trái trên: giờ/ngày và thông tin người chơi; cấp/XP có vùng riêng bên dưới. Phải trên: túi/menu, mục tiêu và nút sổ cá không chồng nhau. Trung tâm ưu tiên nhìn cá/QTE; thẻ kết quả nằm cao hơn tâm và banner khám phá ở vùng riêng. Dưới màn hình dành cho lời nhắc thao tác/lực quăng. Lối về làng là vùng chuyển scene ở mép trái Lake; nếu cần art chỉ dẫn thì vẽ biển/biểu tượng thế giới, không vẽ nút Về làng trên HUD.

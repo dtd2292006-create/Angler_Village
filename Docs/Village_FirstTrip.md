@@ -8,7 +8,7 @@ MainMenu → Chơi mới → Village, PlayerSpawn tại House. Hồ sơ mới ch
 - Sau chứng nhận: góc trái có cấp và XP, nằm dưới cụm đồng hồ/túi/loadout; khung mục tiêu ở bên phải dưới nút menu.
 - FishShopManager: chủ cửa hàng. Lần đầu sau chứng nhận sẽ giới thiệu mua/bán, cấp và trang bị 1 dây cơ bản + 1 mồi giun miễn phí. Cờ nhận bộ khởi đầu được lưu; không nhận lặp khi đổi scene hoặc mở lại game.
 - Đi tiếp sang phải vào biển ở Sign: tự sang Lake. Trước khi nhận chứng nhận/bộ miễn phí, lối đi nhắc về guild/cửa hàng.
-- Lake: hệ thống câu hiện có, thêm thông tin ủy thác/tiền/cấp/XP và sổ cá. Esc → Về làng để quay lại gần biển, đi sang trái gặp tiếp tân giao cá.
+- Lake: hệ thống câu hiện có, thêm thông tin ủy thác/tiền/cấp/XP và sổ cá. Đi về mép trái Lake để tự quay lại cạnh biển bên phải của Village, rồi đi sang trái gặp tiếp tân giao cá.
 - Tiếp tục ở MainMenu mở scene đã lưu. Vị trí Village dùng marker House hoặc LakeReturnSpawn; chưa lưu tọa độ chính xác của mỗi bước đi.
 
 ## Ủy thác
@@ -59,7 +59,7 @@ Chưa chạy Unity import/compile/Play Mode/build cho đợt này, theo phạm v
 
 ## Bổ sung khả năng đọc và đường về
 
-HUD Lake có nút VỀ LÀNG ngay phía trên giữa màn hình, dùng cùng bước xác nhận/lưu/chuyển scene với mục Về làng trong Esc. Kết quả câu được hiển thị bằng FishingResultUI: thẻ nền đậm, ảnh cá hoặc ký hiệu, tiêu đề theo màu và mô tả trong 4,5 giây. Có thông báo riêng cho thành công, đứt dây và thu mồi chưa có cá; không chặn thao tác hoặc đóng băng thời gian.
+Lake dùng vùng trigger LakeToVillageExit ở mép trái bờ. Đi vào đó khi đã thu mồi sẽ tự lưu và về Village; không có nút Về làng trên HUD hoặc trong pause. Player xuất hiện cạnh biển bên phải Village, hướng vào làng và ngoài bán kính chuyển ngược sang hồ để tránh vòng lặp scene. Kết quả câu được hiển thị bằng FishingResultUI: thẻ nền đậm, ảnh cá hoặc ký hiệu, tiêu đề theo màu và mô tả trong 4,5 giây. Có thông báo riêng cho thành công, đứt dây và thu mồi chưa có cá; không chặn thao tác hoặc đóng băng thời gian.
 
 Khoảng hở chân: đối chiếu Idle/Walk 96×120, PPU 64, hàng alpha cuối kết thúc tại y=113 (6 px trống phía dưới). Với Visual y=0,54, đáy pixel chân ở root y=0,63375. Đáy capsule chỉnh về 0,64375 để bù contact offset 0,01; không sửa clip, pivot, PPU hoặc Scale. Bỏ phần nâng thêm 0,01 khi đặt player ở Village. Chưa quan sát kết quả thực tế trong Unity.
 

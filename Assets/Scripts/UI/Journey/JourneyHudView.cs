@@ -27,6 +27,6 @@ public sealed class JourneyHudView : MonoBehaviour
         objective.text = !progress.Certified ? "VIỆC CẦN LÀM\nĐến guild gặp cô tiếp tân [E]." :
             !progress.StarterKitClaimed ? "VIỆC CẦN LÀM\nQua cửa hàng bên phải, nhận dây và mồi miễn phí." :
             !progress.LakeVisited ? "CHUYẾN CÂU ĐẦU\nĐi tiếp sang phải đến biển dẫn ra hồ." :
-            guild.Summary() + (lake ? "\nEsc → Về làng để giao cá." : "\n[E] gặp tiếp tân để nhận / giao việc.");
+            guild.Summary() + (lake ? "\nĐi về mép trái hồ để trở về làng." : "\n[E] gặp tiếp tân để nhận / giao việc.");
     }
 }
