@@ -7,8 +7,32 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputReader : MonoBehaviour
 {
+    private bool waitForMouseRelease;
+
+    private void Update()
+    {
+        if (AnglerVillage.UI.GameInputBlock.IsBlocked) waitForMouseRelease = true;
+        else if (!RawMouseHeld) waitForMouseRelease = false;
+    }
+
+    private bool CanReadMouse => CanRead && !waitForMouseRelease;
+    private static bool RawMouseHeld
+    {
+        get
+        {
+#if ENABLE_INPUT_SYSTEM
+            return Mouse.current != null && Mouse.current.leftButton.isPressed;
+#elif ENABLE_LEGACY_INPUT_MANAGER
+            return Input.GetMouseButton(0);
+#else
+            return false;
+#endif
+        }
+    }
+
     private bool CanRead =>
         isActiveAndEnabled &&
+        !AnglerVillage.UI.GameInputBlock.IsBlocked &&
         Time.timeScale > 0f &&
         Application.isFocused;
 
@@ -51,7 +75,7 @@ public class PlayerInputReader : MonoBehaviour
     {
         get
         {
-            if (!CanRead)
+            if (!CanReadMouse)
                 return false;
 
             // Bấm vào UI không bắt đầu quăng cần.
@@ -76,7 +100,7 @@ public class PlayerInputReader : MonoBehaviour
     {
         get
         {
-            if (!CanRead)
+            if (!CanReadMouse)
                 return false;
 
 #if ENABLE_INPUT_SYSTEM
