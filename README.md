@@ -2,6 +2,12 @@
 
 Game câu cá 2D phong cách pixel cho PC, phát triển bằng Unity **6000.3.7f1** với Universal 2D. Người chơi nhận ủy thác tại làng, chuẩn bị cần/dây/mồi, ra hồ câu cá, rồi giao cá hoặc bán để nhận xu và kinh nghiệm. Sổ cá lưu các loài đã khám phá.
 
+## Kiểm tra phiên bản và khôi phục
+
+`main` và `codex/fish-inventory-ui` đã được đồng bộ sau đợt khôi phục. Dùng nguyên bộ project cùng một nhánh; scene Village cần các prefab, script, dữ liệu và `.meta` tương ứng. Không chép riêng scene vào phiên bản thiếu phụ thuộc.
+
+Trong Unity, chọn **Tools > Fishing > Validate Project Files** để kiểm tra scene, prefab/GUID và dấu conflict mà không sửa file. Xem [hướng dẫn khôi phục](Docs/Recovery.md). Bản trước các thay đổi spawn được giữ tại nhánh `recovery/before-spawn-fixes`; bản main cũ tại `backup/main-before-repair-20261022`.
+
 ## Mở project
 
 1. Trong Unity Hub, chọn **Add project from disk** và mở thư mục chứa `Assets`, `Packages`, `ProjectSettings`.
