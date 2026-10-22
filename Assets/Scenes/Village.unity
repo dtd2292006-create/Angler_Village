@@ -8444,6 +8444,8 @@ MonoBehaviour:
   houseSpawn: {fileID: 500005987}
   lakeReturnSpawn: {fileID: 2400000201}
   movement: {fileID: 1151375151}
+  alignFeetToGround: 1
+  ground: {fileID: 240005766}
 --- !u!114 &2400000106
 MonoBehaviour:
   m_ObjectHideFlags: 0
