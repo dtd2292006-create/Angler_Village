@@ -9,6 +9,18 @@ public sealed class SceneFlow : MonoBehaviour
     [SerializeField] private string lakeScene = "Lake";
     [SerializeField] private string villageScene = "Village";
     [SerializeField] private string menuScene = "MainMenu";
+    // Carry the entry point across scene loading independently of profile recreation.
+    private static string pendingScene;
+    private static string pendingArrival;
+    public static string ConsumeArrival(string scene, string fallback)
+    {
+        if (pendingScene != scene || string.IsNullOrEmpty(pendingArrival)) return fallback;
+        string arrival = pendingArrival;
+        pendingScene = pendingArrival = null;
+        return arrival;
+    }
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetArrival() => pendingScene = pendingArrival = null;
     public bool IsLoading { get; private set; }
     public event Action<string> Failed;
     public static string SavePath => Path.Combine(Application.persistentDataPath, "Saves", "slot_01", "player.json");
@@ -25,11 +37,14 @@ public sealed class SceneFlow : MonoBehaviour
         if (IsLoading) return;
         var store = new PlayerSaveFileStore(SavePath);
         if (store.Load(out _, out var error) == PlayerSaveLoadStatus.Failed) { Failed?.Invoke(error); return; }
-        StartCoroutine(Load(store.LoadedProgress != null ? store.LoadedProgress.currentScene : villageScene, false));
+        var savedProgress = store.LoadedProgress;
+        string target = savedProgress != null ? savedProgress.currentScene : villageScene;
+        StartCoroutine(Load(target, false, target == villageScene ?
+            (savedProgress != null ? savedProgress.villageArrival : "House") : null));
     }
     public void TravelToLake() { if (!IsLoading) StartCoroutine(Load(lakeScene, false, "Lake")); }
     public void TravelToVillage() { if (!IsLoading) StartCoroutine(Load(villageScene, false, "Lake")); }
-    public void NewGame() { if (!IsLoading) StartCoroutine(Load(villageScene, true)); }
+    public void NewGame() { if (!IsLoading) StartCoroutine(Load(villageScene, true, "House")); }
     public void ReturnToMenu() { if (!IsLoading) StartCoroutine(Load(menuScene, false)); }
     private IEnumerator Load(string target, bool fresh, string arrival = null)
     {
@@ -43,7 +58,7 @@ public sealed class SceneFlow : MonoBehaviour
         GamePause.Set(this, true);
         var progress = PlayerProgress.Current;
         var previousProgress = progress != null ? progress.Export() : null;
-        if (arrival != null && progress != null) progress.SetDestination(target, arrival);
+        if (!fresh && arrival != null && progress != null) progress.SetDestination(target, arrival);
         bool saved = PlayerInventory.Instance == null || PlayerInventory.Instance.GetComponent<PlayerSaveController>().SaveNow();
         if (!saved)
         {
@@ -68,6 +83,8 @@ public sealed class SceneFlow : MonoBehaviour
             if (error != null) { Debug.LogError(error, this); Abort("Không tạo được hồ sơ mới. Tiến trình cũ vẫn được giữ."); yield break; }
         }
         GameSettings.Save();
+        pendingScene = arrival != null ? target : null;
+        pendingArrival = arrival;
         var operation = SceneManager.LoadSceneAsync(target);
         if (operation == null) { Abort("Không tải được màn chơi."); yield break; }
         while (!operation.isDone) yield return null;
@@ -75,6 +92,7 @@ public sealed class SceneFlow : MonoBehaviour
     }
     private void Abort(string message)
     {
+        pendingScene = pendingArrival = null;
         IsLoading = false;
         GamePause.Set(this, false);
         Failed?.Invoke(message);

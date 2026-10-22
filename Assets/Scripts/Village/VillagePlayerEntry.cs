@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 // Authored spawn markers choose the location; the existing capsule decides the foot contact.
@@ -10,10 +11,19 @@ public sealed class VillagePlayerEntry : MonoBehaviour
     [SerializeField] private PlayerMovement movement;
     [SerializeField] private bool alignFeetToGround = true;
     private readonly RaycastHit2D[] floorHits = new RaycastHit2D[16];
-    private void Start()
+    private IEnumerator Start()
     {
+        // A temporarily unavailable profile must not select House for a returning player.
+        while (PlayerProgress.Current == null || !PlayerProgress.Current.IsReady) yield return null;
         var progress = PlayerProgress.Current;
-        var spawn = progress != null && progress.VillageArrival == "Lake" ? lakeReturnSpawn : houseSpawn;
+        string arrival = SceneFlow.ConsumeArrival(gameObject.scene.name, progress.VillageArrival);
+        bool fromLake = arrival == "Lake";
+        var spawn = fromLake ? lakeReturnSpawn : houseSpawn;
+        if (player == null || spawn == null)
+        {
+            Debug.LogError("VillagePlayerEntry: assign Player and the selected spawn marker.", this);
+            yield break;
+        }
         if (spawn != null)
         {
             player.position = spawn.position; player.linearVelocity = Vector2.zero;
@@ -32,7 +42,7 @@ public sealed class VillagePlayerEntry : MonoBehaviour
             }
             Physics2D.SyncTransforms();
         }
-        if (movement != null) movement.SetFacing(spawn == houseSpawn);
-        if (progress != null) progress.SetDestination("Village", progress.VillageArrival);
+        if (movement != null) movement.SetFacing(!fromLake);
+        progress.SetDestination(gameObject.scene.name, arrival);
     }
 }
